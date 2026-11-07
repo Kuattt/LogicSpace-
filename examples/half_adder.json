@@ -1,0 +1,114 @@
+{
+  "format": "logicspace",
+  "version": 1,
+  "tick": 0,
+  "components": [
+    {
+      "id": "6275e70d904e",
+      "kind": "INPUT",
+      "x": -300,
+      "y": -100,
+      "params": {
+        "label": "A"
+      },
+      "state": {}
+    },
+    {
+      "id": "f7c715587b3f",
+      "kind": "INPUT",
+      "x": -300,
+      "y": 80,
+      "params": {
+        "label": "B"
+      },
+      "state": {}
+    },
+    {
+      "id": "df49e1ac90c0",
+      "kind": "XOR",
+      "x": 0,
+      "y": -100,
+      "params": {},
+      "state": {}
+    },
+    {
+      "id": "96e22ae42b85",
+      "kind": "AND",
+      "x": 0,
+      "y": 80,
+      "params": {},
+      "state": {}
+    },
+    {
+      "id": "e5b8595316f1",
+      "kind": "OUTPUT",
+      "x": 280,
+      "y": -100,
+      "params": {
+        "label": "SUM"
+      },
+      "state": {}
+    },
+    {
+      "id": "81eb29393e5f",
+      "kind": "OUTPUT",
+      "x": 280,
+      "y": 80,
+      "params": {
+        "label": "CARRY"
+      },
+      "state": {}
+    }
+  ],
+  "wires": [
+    {
+      "id": "21c61aabee06",
+      "source": "6275e70d904e",
+      "source_pin": "Q",
+      "target": "df49e1ac90c0",
+      "target_pin": "A",
+      "bends": []
+    },
+    {
+      "id": "e81ea24258dd",
+      "source": "f7c715587b3f",
+      "source_pin": "Q",
+      "target": "df49e1ac90c0",
+      "target_pin": "B",
+      "bends": []
+    },
+    {
+      "id": "aea1d826475e",
+      "source": "6275e70d904e",
+      "source_pin": "Q",
+      "target": "96e22ae42b85",
+      "target_pin": "A",
+      "bends": []
+    },
+    {
+      "id": "94a6b2a5f13a",
+      "source": "f7c715587b3f",
+      "source_pin": "Q",
+      "target": "96e22ae42b85",
+      "target_pin": "B",
+      "bends": []
+    },
+    {
+      "id": "abcafea3c7a9",
+      "source": "df49e1ac90c0",
+      "source_pin": "Q",
+      "target": "e5b8595316f1",
+      "target_pin": "A",
+      "bends": []
+    },
+    {
+      "id": "c3d36e47c091",
+      "source": "96e22ae42b85",
+      "source_pin": "Q",
+      "target": "81eb29393e5f",
+      "target_pin": "A",
+      "bends": []
+    }
+  ],
+  "blocks": {}
+}

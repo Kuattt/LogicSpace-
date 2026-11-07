@@ -1,0 +1,789 @@
+{
+  "format": "logicspace",
+  "version": 1,
+  "tick": 0,
+  "components": [
+    {
+      "id": "46ce3fb824e5",
+      "kind": "Clock Generator",
+      "x": -980,
+      "y": -200,
+      "params": {
+        "label": "CPU clock",
+        "period": 2
+      },
+      "state": {}
+    },
+    {
+      "id": "3499cf73460d",
+      "kind": "CONST",
+      "x": -980,
+      "y": 40,
+      "params": {
+        "label": "Enable",
+        "value": 1
+      },
+      "state": {}
+    },
+    {
+      "id": "df6a545b375b",
+      "kind": "CONST",
+      "x": -980,
+      "y": 250,
+      "params": {
+        "label": "Reset / Z",
+        "value": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "762d411bc0d8",
+      "kind": "Bus Input",
+      "x": -980,
+      "y": 470,
+      "params": {
+        "label": "Jump target",
+        "width": 8,
+        "value": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "5c91bd04f37d",
+      "kind": "Program Counter",
+      "x": -650,
+      "y": -220,
+      "params": {
+        "label": "PC",
+        "width": 8
+      },
+      "state": {}
+    },
+    {
+      "id": "658b7526e71e",
+      "kind": "ROM",
+      "x": -350,
+      "y": -220,
+      "params": {
+        "label": "Program ROM",
+        "address_bits": 4,
+        "data_bits": 8,
+        "depth": 16,
+        "contents": {
+          "0": 0,
+          "1": 1,
+          "2": 2,
+          "3": 5,
+          "4": 6
+        }
+      },
+      "state": {}
+    },
+    {
+      "id": "af15e8ca9310",
+      "kind": "Instruction Register",
+      "x": -50,
+      "y": -220,
+      "params": {
+        "label": "Instruction",
+        "width": 8
+      },
+      "state": {}
+    },
+    {
+      "id": "0c76a6cea270",
+      "kind": "Control Unit",
+      "x": 270,
+      "y": -220,
+      "params": {
+        "label": "Control",
+        "opcode_bits": 4
+      },
+      "state": {}
+    },
+    {
+      "id": "72e88a89cc8a",
+      "kind": "Bus Input",
+      "x": -700,
+      "y": 220,
+      "params": {
+        "label": "Read A \u00b7 r0",
+        "width": 2,
+        "value": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "ad14e613a17a",
+      "kind": "Bus Input",
+      "x": -700,
+      "y": 410,
+      "params": {
+        "label": "Read B \u00b7 r1",
+        "width": 2,
+        "value": 1
+      },
+      "state": {}
+    },
+    {
+      "id": "828de92b5ece",
+      "kind": "Bus Input",
+      "x": -700,
+      "y": 600,
+      "params": {
+        "label": "Write \u00b7 r2",
+        "width": 2,
+        "value": 2
+      },
+      "state": {}
+    },
+    {
+      "id": "3e9e2e4985bb",
+      "kind": "Register File",
+      "x": -340,
+      "y": 300,
+      "params": {
+        "label": "Registers",
+        "registers": 4,
+        "data_bits": 8,
+        "read_ports": 2
+      },
+      "state": {
+        "words": {
+          "0": 5,
+          "1": 3
+        }
+      }
+    },
+    {
+      "id": "7f4dca19b833",
+      "kind": "ALU",
+      "x": 70,
+      "y": 310,
+      "params": {
+        "label": "ALU",
+        "width": 8,
+        "alu_version": 2
+      },
+      "state": {}
+    },
+    {
+      "id": "6250cdebf123",
+      "kind": "RAM",
+      "x": 450,
+      "y": 410,
+      "params": {
+        "label": "Data RAM",
+        "address_bits": 2,
+        "data_bits": 8,
+        "depth": 4
+      },
+      "state": {}
+    },
+    {
+      "id": "71e28735aa44",
+      "kind": "Bus Probe",
+      "x": -380,
+      "y": -520,
+      "params": {
+        "label": "PC value",
+        "width": 8,
+        "display": "hex"
+      },
+      "state": {}
+    },
+    {
+      "id": "bf131c49c0b9",
+      "kind": "Bus Probe",
+      "x": 20,
+      "y": -520,
+      "params": {
+        "label": "Instruction",
+        "width": 8,
+        "display": "hex"
+      },
+      "state": {}
+    },
+    {
+      "id": "2fcfbde0bbf9",
+      "kind": "Bus Probe",
+      "x": 430,
+      "y": 200,
+      "params": {
+        "label": "ALU result",
+        "width": 8,
+        "display": "hex"
+      },
+      "state": {}
+    },
+    {
+      "id": "721ae23fe55d",
+      "kind": "Bus Probe",
+      "x": 770,
+      "y": 410,
+      "params": {
+        "label": "RAM read",
+        "width": 8,
+        "display": "hex"
+      },
+      "state": {}
+    }
+  ],
+  "wires": [
+    {
+      "id": "e33ef9766eb3",
+      "source": "46ce3fb824e5",
+      "source_pin": "Q",
+      "target": "5c91bd04f37d",
+      "target_pin": "CLK",
+      "bends": []
+    },
+    {
+      "id": "9d1036839442",
+      "source": "46ce3fb824e5",
+      "source_pin": "Q",
+      "target": "af15e8ca9310",
+      "target_pin": "CLK",
+      "bends": []
+    },
+    {
+      "id": "40aabb189cc5",
+      "source": "46ce3fb824e5",
+      "source_pin": "Q",
+      "target": "3e9e2e4985bb",
+      "target_pin": "CLK",
+      "bends": []
+    },
+    {
+      "id": "6b42ec899fc6",
+      "source": "46ce3fb824e5",
+      "source_pin": "Q",
+      "target": "6250cdebf123",
+      "target_pin": "CLK",
+      "bends": []
+    },
+    {
+      "id": "712e09b63edc",
+      "source": "3499cf73460d",
+      "source_pin": "Q",
+      "target": "5c91bd04f37d",
+      "target_pin": "ENABLE",
+      "bends": []
+    },
+    {
+      "id": "957561cc2402",
+      "source": "3499cf73460d",
+      "source_pin": "Q",
+      "target": "af15e8ca9310",
+      "target_pin": "LOAD",
+      "bends": []
+    },
+    {
+      "id": "4f41db508c64",
+      "source": "df6a545b375b",
+      "source_pin": "Q",
+      "target": "5c91bd04f37d",
+      "target_pin": "RESET",
+      "bends": []
+    },
+    {
+      "id": "757030f2fd6d",
+      "source": "df6a545b375b",
+      "source_pin": "Q",
+      "target": "0c76a6cea270",
+      "target_pin": "ZERO",
+      "bends": []
+    },
+    {
+      "id": "4836e33db90f",
+      "source": "762d411bc0d8",
+      "source_pin": "Q",
+      "target": "5c91bd04f37d",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "413f84c6f80a",
+      "source": "0c76a6cea270",
+      "source_pin": "PC_INC",
+      "target": "5c91bd04f37d",
+      "target_pin": "INC",
+      "bends": []
+    },
+    {
+      "id": "9891d817c0f1",
+      "source": "0c76a6cea270",
+      "source_pin": "PC_LOAD",
+      "target": "5c91bd04f37d",
+      "target_pin": "LOAD",
+      "bends": []
+    },
+    {
+      "id": "e846d111fa3b",
+      "source": "5c91bd04f37d",
+      "source_pin": "Q",
+      "target": "71e28735aa44",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "769206af078b",
+      "source": "5c91bd04f37d",
+      "source_pin": "Q0",
+      "target": "658b7526e71e",
+      "target_pin": "A0",
+      "bends": []
+    },
+    {
+      "id": "f0a3c017804c",
+      "source": "af15e8ca9310",
+      "source_pin": "Q0",
+      "target": "0c76a6cea270",
+      "target_pin": "OP0",
+      "bends": []
+    },
+    {
+      "id": "cb1f24f92f25",
+      "source": "5c91bd04f37d",
+      "source_pin": "Q1",
+      "target": "658b7526e71e",
+      "target_pin": "A1",
+      "bends": []
+    },
+    {
+      "id": "f434c9ffe9c1",
+      "source": "af15e8ca9310",
+      "source_pin": "Q1",
+      "target": "0c76a6cea270",
+      "target_pin": "OP1",
+      "bends": []
+    },
+    {
+      "id": "33d1a00cbea2",
+      "source": "5c91bd04f37d",
+      "source_pin": "Q2",
+      "target": "658b7526e71e",
+      "target_pin": "A2",
+      "bends": []
+    },
+    {
+      "id": "a5f4431979bb",
+      "source": "af15e8ca9310",
+      "source_pin": "Q2",
+      "target": "0c76a6cea270",
+      "target_pin": "OP2",
+      "bends": []
+    },
+    {
+      "id": "52207755f9a4",
+      "source": "5c91bd04f37d",
+      "source_pin": "Q3",
+      "target": "658b7526e71e",
+      "target_pin": "A3",
+      "bends": []
+    },
+    {
+      "id": "24f48d5c8ed3",
+      "source": "af15e8ca9310",
+      "source_pin": "Q3",
+      "target": "0c76a6cea270",
+      "target_pin": "OP3",
+      "bends": []
+    },
+    {
+      "id": "c3e77485a5c6",
+      "source": "658b7526e71e",
+      "source_pin": "Q",
+      "target": "af15e8ca9310",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "338d15c7fcc8",
+      "source": "af15e8ca9310",
+      "source_pin": "Q",
+      "target": "bf131c49c0b9",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "21e1e4edcf99",
+      "source": "72e88a89cc8a",
+      "source_pin": "Q",
+      "target": "3e9e2e4985bb",
+      "target_pin": "RA0",
+      "bends": [],
+      "width": 2,
+      "source_bits": [
+        "Q0",
+        "Q1"
+      ],
+      "target_bits": [
+        "RA0_0",
+        "RA0_1"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "329f79fd0021",
+      "source": "ad14e613a17a",
+      "source_pin": "Q",
+      "target": "3e9e2e4985bb",
+      "target_pin": "RA1",
+      "bends": [],
+      "width": 2,
+      "source_bits": [
+        "Q0",
+        "Q1"
+      ],
+      "target_bits": [
+        "RA1_0",
+        "RA1_1"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "1b6ac8b51c85",
+      "source": "828de92b5ece",
+      "source_pin": "Q",
+      "target": "3e9e2e4985bb",
+      "target_pin": "WA",
+      "bends": [],
+      "width": 2,
+      "source_bits": [
+        "Q0",
+        "Q1"
+      ],
+      "target_bits": [
+        "WA0",
+        "WA1"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "f9631fc69e45",
+      "source": "828de92b5ece",
+      "source_pin": "Q",
+      "target": "6250cdebf123",
+      "target_pin": "A",
+      "bends": [],
+      "width": 2,
+      "source_bits": [
+        "Q0",
+        "Q1"
+      ],
+      "target_bits": [
+        "A0",
+        "A1"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "927a1057be6b",
+      "source": "0c76a6cea270",
+      "source_pin": "REG_WE",
+      "target": "3e9e2e4985bb",
+      "target_pin": "WE",
+      "bends": []
+    },
+    {
+      "id": "57f9fb9d0d65",
+      "source": "0c76a6cea270",
+      "source_pin": "MEM_WE",
+      "target": "6250cdebf123",
+      "target_pin": "WE",
+      "bends": []
+    },
+    {
+      "id": "650b952c8791",
+      "source": "3e9e2e4985bb",
+      "source_pin": "R0",
+      "target": "7f4dca19b833",
+      "target_pin": "A",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "R0_0",
+        "R0_1",
+        "R0_2",
+        "R0_3",
+        "R0_4",
+        "R0_5",
+        "R0_6",
+        "R0_7"
+      ],
+      "target_bits": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "4750d4f680ba",
+      "source": "3e9e2e4985bb",
+      "source_pin": "R1",
+      "target": "7f4dca19b833",
+      "target_pin": "B",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "R1_0",
+        "R1_1",
+        "R1_2",
+        "R1_3",
+        "R1_4",
+        "R1_5",
+        "R1_6",
+        "R1_7"
+      ],
+      "target_bits": [
+        "B0",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5",
+        "B6",
+        "B7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "e61403693f58",
+      "source": "0c76a6cea270",
+      "source_pin": "ALU_OP",
+      "target": "7f4dca19b833",
+      "target_pin": "OP",
+      "bends": [],
+      "width": 4,
+      "source_bits": [
+        "ALU_OP0",
+        "ALU_OP1",
+        "ALU_OP2",
+        "ALU_OP3"
+      ],
+      "target_bits": [
+        "OP0",
+        "OP1",
+        "OP2",
+        "OP3"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "6ca9f4360598",
+      "source": "7f4dca19b833",
+      "source_pin": "Q",
+      "target": "3e9e2e4985bb",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "dd628b6d71ea",
+      "source": "7f4dca19b833",
+      "source_pin": "Q",
+      "target": "6250cdebf123",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "49090e8bd7fe",
+      "source": "7f4dca19b833",
+      "source_pin": "Q",
+      "target": "2fcfbde0bbf9",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "c9cc1fba17f0",
+      "source": "6250cdebf123",
+      "source_pin": "Q",
+      "target": "721ae23fe55d",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    }
+  ],
+  "blocks": {}
+}

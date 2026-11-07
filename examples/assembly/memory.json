@@ -1,0 +1,1452 @@
+{
+  "format": "logicspace",
+  "version": 1,
+  "tick": 0,
+  "components": [
+    {
+      "id": "caa8f45e15b6",
+      "kind": "Clock Generator",
+      "x": -1200,
+      "y": -420,
+      "params": {
+        "label": "Clock",
+        "period": 2
+      },
+      "state": {}
+    },
+    {
+      "id": "0a7e077f6478",
+      "kind": "CONST",
+      "x": -1200,
+      "y": -210,
+      "params": {
+        "label": "Enable",
+        "value": 1
+      },
+      "state": {}
+    },
+    {
+      "id": "2caf7c3c9a5b",
+      "kind": "CONST",
+      "x": -1200,
+      "y": 0,
+      "params": {
+        "label": "Reset",
+        "value": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "5460d1e6f946",
+      "kind": "Program Counter",
+      "x": -880,
+      "y": -430,
+      "params": {
+        "label": "Pc",
+        "width": 8
+      },
+      "state": {}
+    },
+    {
+      "id": "f75214ad639f",
+      "kind": "ROM",
+      "x": -570,
+      "y": -430,
+      "params": {
+        "label": "Rom",
+        "address_bits": 8,
+        "data_bits": 8,
+        "depth": 256,
+        "contents": {
+          "0": 16,
+          "1": 0,
+          "2": 42,
+          "3": 19,
+          "4": 0,
+          "5": 32,
+          "6": 16,
+          "7": 0,
+          "8": 0,
+          "9": 18,
+          "10": 0,
+          "11": 32,
+          "12": 1
+        }
+      },
+      "state": {}
+    },
+    {
+      "id": "cb286d0f533d",
+      "kind": "Instruction Register",
+      "x": -260,
+      "y": -430,
+      "params": {
+        "label": "Ir",
+        "width": 8
+      },
+      "state": {}
+    },
+    {
+      "id": "2f68bf7a23ae",
+      "kind": "ISA Control Unit",
+      "x": 60,
+      "y": -430,
+      "params": {
+        "label": "Control"
+      },
+      "state": {}
+    },
+    {
+      "id": "b3fbd33e4b6a",
+      "kind": "Register File",
+      "x": -610,
+      "y": 310,
+      "params": {
+        "label": "Registers",
+        "registers": 4,
+        "data_bits": 8,
+        "read_ports": 2
+      },
+      "state": {}
+    },
+    {
+      "id": "691e8f4b58ef",
+      "kind": "ALU",
+      "x": -260,
+      "y": 310,
+      "params": {
+        "label": "Alu",
+        "width": 8,
+        "alu_version": 2
+      },
+      "state": {}
+    },
+    {
+      "id": "a77c04de6f74",
+      "kind": "RAM",
+      "x": 890,
+      "y": 310,
+      "params": {
+        "label": "Ram",
+        "address_bits": 8,
+        "data_bits": 8,
+        "depth": 256
+      },
+      "state": {}
+    },
+    {
+      "id": "2ce77c9414d6",
+      "kind": "Multiplexer",
+      "x": 70,
+      "y": 320,
+      "params": {
+        "label": "Rf_Imm",
+        "width": 8
+      },
+      "state": {}
+    },
+    {
+      "id": "bdea1033e582",
+      "kind": "Multiplexer",
+      "x": 360,
+      "y": 320,
+      "params": {
+        "label": "Rf_Mem",
+        "width": 8
+      },
+      "state": {}
+    },
+    {
+      "id": "bb9fdcc47409",
+      "kind": "Multiplexer",
+      "x": 620,
+      "y": 320,
+      "params": {
+        "label": "Rf_Reg",
+        "width": 8
+      },
+      "state": {}
+    },
+    {
+      "id": "656479d7f241",
+      "kind": "Multiplexer",
+      "x": 390,
+      "y": -760,
+      "params": {
+        "label": "Pc_Data",
+        "width": 8
+      },
+      "state": {}
+    },
+    {
+      "id": "f203b5cc9b34",
+      "kind": "Multiplexer",
+      "x": 590,
+      "y": 80,
+      "params": {
+        "label": "Mem_Data",
+        "width": 8
+      },
+      "state": {}
+    }
+  ],
+  "wires": [
+    {
+      "id": "25bb50cddfe2",
+      "source": "caa8f45e15b6",
+      "source_pin": "Q",
+      "target": "5460d1e6f946",
+      "target_pin": "CLK",
+      "bends": []
+    },
+    {
+      "id": "4abe7b3da261",
+      "source": "caa8f45e15b6",
+      "source_pin": "Q",
+      "target": "cb286d0f533d",
+      "target_pin": "CLK",
+      "bends": []
+    },
+    {
+      "id": "b12013e7c592",
+      "source": "caa8f45e15b6",
+      "source_pin": "Q",
+      "target": "2f68bf7a23ae",
+      "target_pin": "CLK",
+      "bends": []
+    },
+    {
+      "id": "1926a59b474b",
+      "source": "caa8f45e15b6",
+      "source_pin": "Q",
+      "target": "b3fbd33e4b6a",
+      "target_pin": "CLK",
+      "bends": []
+    },
+    {
+      "id": "d4e24fb9384f",
+      "source": "caa8f45e15b6",
+      "source_pin": "Q",
+      "target": "a77c04de6f74",
+      "target_pin": "CLK",
+      "bends": []
+    },
+    {
+      "id": "676abf57d1aa",
+      "source": "0a7e077f6478",
+      "source_pin": "Q",
+      "target": "5460d1e6f946",
+      "target_pin": "ENABLE",
+      "bends": []
+    },
+    {
+      "id": "688c4df4af10",
+      "source": "2caf7c3c9a5b",
+      "source_pin": "Q",
+      "target": "5460d1e6f946",
+      "target_pin": "RESET",
+      "bends": []
+    },
+    {
+      "id": "dac7ca1b1a9f",
+      "source": "2f68bf7a23ae",
+      "source_pin": "PC_INC",
+      "target": "5460d1e6f946",
+      "target_pin": "INC",
+      "bends": []
+    },
+    {
+      "id": "ed329174b887",
+      "source": "2f68bf7a23ae",
+      "source_pin": "PC_LOAD",
+      "target": "5460d1e6f946",
+      "target_pin": "LOAD",
+      "bends": []
+    },
+    {
+      "id": "1c0c016c8b10",
+      "source": "656479d7f241",
+      "source_pin": "Q",
+      "target": "5460d1e6f946",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "7a8ca3bc3e19",
+      "source": "5460d1e6f946",
+      "source_pin": "Q",
+      "target": "f75214ad639f",
+      "target_pin": "A",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "7d739c826cec",
+      "source": "5460d1e6f946",
+      "source_pin": "Q",
+      "target": "2f68bf7a23ae",
+      "target_pin": "PC",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "PC0",
+        "PC1",
+        "PC2",
+        "PC3",
+        "PC4",
+        "PC5",
+        "PC6",
+        "PC7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "19c813ea6c19",
+      "source": "f75214ad639f",
+      "source_pin": "Q",
+      "target": "cb286d0f533d",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "24c3545d21eb",
+      "source": "f75214ad639f",
+      "source_pin": "Q",
+      "target": "2f68bf7a23ae",
+      "target_pin": "ROM_D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "ROM_D0",
+        "ROM_D1",
+        "ROM_D2",
+        "ROM_D3",
+        "ROM_D4",
+        "ROM_D5",
+        "ROM_D6",
+        "ROM_D7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "20b0223a990e",
+      "source": "2f68bf7a23ae",
+      "source_pin": "IR_LOAD",
+      "target": "cb286d0f533d",
+      "target_pin": "LOAD",
+      "bends": []
+    },
+    {
+      "id": "27a935a69661",
+      "source": "cb286d0f533d",
+      "source_pin": "Q",
+      "target": "2f68bf7a23ae",
+      "target_pin": "IR",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "IR0",
+        "IR1",
+        "IR2",
+        "IR3",
+        "IR4",
+        "IR5",
+        "IR6",
+        "IR7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "75df98e80a13",
+      "source": "2f68bf7a23ae",
+      "source_pin": "RA0",
+      "target": "b3fbd33e4b6a",
+      "target_pin": "RA0",
+      "bends": [],
+      "width": 2,
+      "source_bits": [
+        "RA0_0",
+        "RA0_1"
+      ],
+      "target_bits": [
+        "RA0_0",
+        "RA0_1"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "dd26c97687b4",
+      "source": "2f68bf7a23ae",
+      "source_pin": "RA1",
+      "target": "b3fbd33e4b6a",
+      "target_pin": "RA1",
+      "bends": [],
+      "width": 2,
+      "source_bits": [
+        "RA1_0",
+        "RA1_1"
+      ],
+      "target_bits": [
+        "RA1_0",
+        "RA1_1"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "96292d73197a",
+      "source": "2f68bf7a23ae",
+      "source_pin": "WA",
+      "target": "b3fbd33e4b6a",
+      "target_pin": "WA",
+      "bends": [],
+      "width": 2,
+      "source_bits": [
+        "WA0",
+        "WA1"
+      ],
+      "target_bits": [
+        "WA0",
+        "WA1"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "55c9a8973a60",
+      "source": "2f68bf7a23ae",
+      "source_pin": "RF_WE",
+      "target": "b3fbd33e4b6a",
+      "target_pin": "WE",
+      "bends": []
+    },
+    {
+      "id": "bce119f6b835",
+      "source": "bb9fdcc47409",
+      "source_pin": "Q",
+      "target": "b3fbd33e4b6a",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "8377f6629807",
+      "source": "b3fbd33e4b6a",
+      "source_pin": "R0",
+      "target": "691e8f4b58ef",
+      "target_pin": "A",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "R0_0",
+        "R0_1",
+        "R0_2",
+        "R0_3",
+        "R0_4",
+        "R0_5",
+        "R0_6",
+        "R0_7"
+      ],
+      "target_bits": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "a7dd26000e54",
+      "source": "b3fbd33e4b6a",
+      "source_pin": "R1",
+      "target": "691e8f4b58ef",
+      "target_pin": "B",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "R1_0",
+        "R1_1",
+        "R1_2",
+        "R1_3",
+        "R1_4",
+        "R1_5",
+        "R1_6",
+        "R1_7"
+      ],
+      "target_bits": [
+        "B0",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5",
+        "B6",
+        "B7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "059228b5794a",
+      "source": "2f68bf7a23ae",
+      "source_pin": "ALU_OP",
+      "target": "691e8f4b58ef",
+      "target_pin": "OP",
+      "bends": [],
+      "width": 4,
+      "source_bits": [
+        "ALU_OP0",
+        "ALU_OP1",
+        "ALU_OP2",
+        "ALU_OP3"
+      ],
+      "target_bits": [
+        "OP0",
+        "OP1",
+        "OP2",
+        "OP3"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "50c215faf0ab",
+      "source": "691e8f4b58ef",
+      "source_pin": "ZERO",
+      "target": "2f68bf7a23ae",
+      "target_pin": "ALU_ZERO",
+      "bends": []
+    },
+    {
+      "id": "987a3c4b7149",
+      "source": "691e8f4b58ef",
+      "source_pin": "CARRY",
+      "target": "2f68bf7a23ae",
+      "target_pin": "ALU_CARRY",
+      "bends": []
+    },
+    {
+      "id": "3c5f04e47a1a",
+      "source": "691e8f4b58ef",
+      "source_pin": "NEGATIVE",
+      "target": "2f68bf7a23ae",
+      "target_pin": "ALU_NEGATIVE",
+      "bends": []
+    },
+    {
+      "id": "89a1200b5212",
+      "source": "691e8f4b58ef",
+      "source_pin": "OVERFLOW",
+      "target": "2f68bf7a23ae",
+      "target_pin": "ALU_OVERFLOW",
+      "bends": []
+    },
+    {
+      "id": "d9327f4c5370",
+      "source": "691e8f4b58ef",
+      "source_pin": "Q",
+      "target": "2ce77c9414d6",
+      "target_pin": "A",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "a1b6a0eb12d1",
+      "source": "2f68bf7a23ae",
+      "source_pin": "IMM",
+      "target": "2ce77c9414d6",
+      "target_pin": "B",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "IMM0",
+        "IMM1",
+        "IMM2",
+        "IMM3",
+        "IMM4",
+        "IMM5",
+        "IMM6",
+        "IMM7"
+      ],
+      "target_bits": [
+        "B0",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5",
+        "B6",
+        "B7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "e68f92c69dee",
+      "source": "2f68bf7a23ae",
+      "source_pin": "RF_IMM",
+      "target": "2ce77c9414d6",
+      "target_pin": "SEL",
+      "bends": []
+    },
+    {
+      "id": "cad01e99c937",
+      "source": "2ce77c9414d6",
+      "source_pin": "Q",
+      "target": "bdea1033e582",
+      "target_pin": "A",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "fcdede4dab9d",
+      "source": "a77c04de6f74",
+      "source_pin": "Q",
+      "target": "bdea1033e582",
+      "target_pin": "B",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "B0",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5",
+        "B6",
+        "B7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "5f48a7aeb6e3",
+      "source": "2f68bf7a23ae",
+      "source_pin": "RF_MEM",
+      "target": "bdea1033e582",
+      "target_pin": "SEL",
+      "bends": []
+    },
+    {
+      "id": "83b55de56d70",
+      "source": "bdea1033e582",
+      "source_pin": "Q",
+      "target": "bb9fdcc47409",
+      "target_pin": "A",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "0a6ae66fe550",
+      "source": "b3fbd33e4b6a",
+      "source_pin": "R1",
+      "target": "bb9fdcc47409",
+      "target_pin": "B",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "R1_0",
+        "R1_1",
+        "R1_2",
+        "R1_3",
+        "R1_4",
+        "R1_5",
+        "R1_6",
+        "R1_7"
+      ],
+      "target_bits": [
+        "B0",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5",
+        "B6",
+        "B7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "fc9e1550e0a9",
+      "source": "2f68bf7a23ae",
+      "source_pin": "RF_REG",
+      "target": "bb9fdcc47409",
+      "target_pin": "SEL",
+      "bends": []
+    },
+    {
+      "id": "bd16226a8e63",
+      "source": "2f68bf7a23ae",
+      "source_pin": "IMM",
+      "target": "656479d7f241",
+      "target_pin": "A",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "IMM0",
+        "IMM1",
+        "IMM2",
+        "IMM3",
+        "IMM4",
+        "IMM5",
+        "IMM6",
+        "IMM7"
+      ],
+      "target_bits": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "ed0baa7a3a07",
+      "source": "a77c04de6f74",
+      "source_pin": "Q",
+      "target": "656479d7f241",
+      "target_pin": "B",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "B0",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5",
+        "B6",
+        "B7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "b874744ea1da",
+      "source": "2f68bf7a23ae",
+      "source_pin": "PC_MEM",
+      "target": "656479d7f241",
+      "target_pin": "SEL",
+      "bends": []
+    },
+    {
+      "id": "54025d80eab4",
+      "source": "b3fbd33e4b6a",
+      "source_pin": "R0",
+      "target": "f203b5cc9b34",
+      "target_pin": "A",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "R0_0",
+        "R0_1",
+        "R0_2",
+        "R0_3",
+        "R0_4",
+        "R0_5",
+        "R0_6",
+        "R0_7"
+      ],
+      "target_bits": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "1003a06383ec",
+      "source": "5460d1e6f946",
+      "source_pin": "Q",
+      "target": "f203b5cc9b34",
+      "target_pin": "B",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "B0",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5",
+        "B6",
+        "B7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "525d202b5051",
+      "source": "2f68bf7a23ae",
+      "source_pin": "MEM_PC",
+      "target": "f203b5cc9b34",
+      "target_pin": "SEL",
+      "bends": []
+    },
+    {
+      "id": "524fd69c2783",
+      "source": "2f68bf7a23ae",
+      "source_pin": "MEM_A",
+      "target": "a77c04de6f74",
+      "target_pin": "A",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "MEM_A0",
+        "MEM_A1",
+        "MEM_A2",
+        "MEM_A3",
+        "MEM_A4",
+        "MEM_A5",
+        "MEM_A6",
+        "MEM_A7"
+      ],
+      "target_bits": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "b07344f7d814",
+      "source": "f203b5cc9b34",
+      "source_pin": "Q",
+      "target": "a77c04de6f74",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "6dd2dab17fce",
+      "source": "2f68bf7a23ae",
+      "source_pin": "MEM_WE",
+      "target": "a77c04de6f74",
+      "target_pin": "WE",
+      "bends": []
+    },
+    {
+      "id": "6ac0f4f58d0c",
+      "source": "a77c04de6f74",
+      "source_pin": "Q",
+      "target": "2f68bf7a23ae",
+      "target_pin": "MEM_Q",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "MEM_Q0",
+        "MEM_Q1",
+        "MEM_Q2",
+        "MEM_Q3",
+        "MEM_Q4",
+        "MEM_Q5",
+        "MEM_Q6",
+        "MEM_Q7"
+      ],
+      "kind": "bus"
+    }
+  ],
+  "blocks": {},
+  "cpu_workspace": {
+    "version": 1,
+    "source": "; Memory: store 42 at RAM address 0x20, then load it again.\n; Expected: R0=42, RAM[0x20]=42, HLT.\nMOV R0, 42\nSTORE R0, 0x20\nMOV R0, 0\nLOAD R0, 0x20\nHLT\n",
+    "ids": {
+      "clock": "caa8f45e15b6",
+      "enable": "0a7e077f6478",
+      "reset": "2caf7c3c9a5b",
+      "pc": "5460d1e6f946",
+      "rom": "f75214ad639f",
+      "ir": "cb286d0f533d",
+      "control": "2f68bf7a23ae",
+      "registers": "b3fbd33e4b6a",
+      "alu": "691e8f4b58ef",
+      "ram": "a77c04de6f74",
+      "rf_imm": "2ce77c9414d6",
+      "rf_mem": "bdea1033e582",
+      "rf_reg": "bb9fdcc47409",
+      "pc_data": "656479d7f241",
+      "mem_data": "f203b5cc9b34"
+    },
+    "links": [
+      [
+        "caa8f45e15b6",
+        "Q",
+        "5460d1e6f946",
+        "CLK",
+        1
+      ],
+      [
+        "caa8f45e15b6",
+        "Q",
+        "cb286d0f533d",
+        "CLK",
+        1
+      ],
+      [
+        "caa8f45e15b6",
+        "Q",
+        "2f68bf7a23ae",
+        "CLK",
+        1
+      ],
+      [
+        "caa8f45e15b6",
+        "Q",
+        "b3fbd33e4b6a",
+        "CLK",
+        1
+      ],
+      [
+        "caa8f45e15b6",
+        "Q",
+        "a77c04de6f74",
+        "CLK",
+        1
+      ],
+      [
+        "0a7e077f6478",
+        "Q",
+        "5460d1e6f946",
+        "ENABLE",
+        1
+      ],
+      [
+        "2caf7c3c9a5b",
+        "Q",
+        "5460d1e6f946",
+        "RESET",
+        1
+      ],
+      [
+        "2f68bf7a23ae",
+        "PC_INC",
+        "5460d1e6f946",
+        "INC",
+        1
+      ],
+      [
+        "2f68bf7a23ae",
+        "PC_LOAD",
+        "5460d1e6f946",
+        "LOAD",
+        1
+      ],
+      [
+        "656479d7f241",
+        "Q",
+        "5460d1e6f946",
+        "D",
+        8
+      ],
+      [
+        "5460d1e6f946",
+        "Q",
+        "f75214ad639f",
+        "A",
+        8
+      ],
+      [
+        "5460d1e6f946",
+        "Q",
+        "2f68bf7a23ae",
+        "PC",
+        8
+      ],
+      [
+        "f75214ad639f",
+        "Q",
+        "cb286d0f533d",
+        "D",
+        8
+      ],
+      [
+        "f75214ad639f",
+        "Q",
+        "2f68bf7a23ae",
+        "ROM_D",
+        8
+      ],
+      [
+        "2f68bf7a23ae",
+        "IR_LOAD",
+        "cb286d0f533d",
+        "LOAD",
+        1
+      ],
+      [
+        "cb286d0f533d",
+        "Q",
+        "2f68bf7a23ae",
+        "IR",
+        8
+      ],
+      [
+        "2f68bf7a23ae",
+        "RA0",
+        "b3fbd33e4b6a",
+        "RA0",
+        2
+      ],
+      [
+        "2f68bf7a23ae",
+        "RA1",
+        "b3fbd33e4b6a",
+        "RA1",
+        2
+      ],
+      [
+        "2f68bf7a23ae",
+        "WA",
+        "b3fbd33e4b6a",
+        "WA",
+        2
+      ],
+      [
+        "2f68bf7a23ae",
+        "RF_WE",
+        "b3fbd33e4b6a",
+        "WE",
+        1
+      ],
+      [
+        "bb9fdcc47409",
+        "Q",
+        "b3fbd33e4b6a",
+        "D",
+        8
+      ],
+      [
+        "b3fbd33e4b6a",
+        "R0",
+        "691e8f4b58ef",
+        "A",
+        8
+      ],
+      [
+        "b3fbd33e4b6a",
+        "R1",
+        "691e8f4b58ef",
+        "B",
+        8
+      ],
+      [
+        "2f68bf7a23ae",
+        "ALU_OP",
+        "691e8f4b58ef",
+        "OP",
+        4
+      ],
+      [
+        "691e8f4b58ef",
+        "ZERO",
+        "2f68bf7a23ae",
+        "ALU_ZERO",
+        1
+      ],
+      [
+        "691e8f4b58ef",
+        "CARRY",
+        "2f68bf7a23ae",
+        "ALU_CARRY",
+        1
+      ],
+      [
+        "691e8f4b58ef",
+        "NEGATIVE",
+        "2f68bf7a23ae",
+        "ALU_NEGATIVE",
+        1
+      ],
+      [
+        "691e8f4b58ef",
+        "OVERFLOW",
+        "2f68bf7a23ae",
+        "ALU_OVERFLOW",
+        1
+      ],
+      [
+        "691e8f4b58ef",
+        "Q",
+        "2ce77c9414d6",
+        "A",
+        8
+      ],
+      [
+        "2f68bf7a23ae",
+        "IMM",
+        "2ce77c9414d6",
+        "B",
+        8
+      ],
+      [
+        "2f68bf7a23ae",
+        "RF_IMM",
+        "2ce77c9414d6",
+        "SEL",
+        1
+      ],
+      [
+        "2ce77c9414d6",
+        "Q",
+        "bdea1033e582",
+        "A",
+        8
+      ],
+      [
+        "a77c04de6f74",
+        "Q",
+        "bdea1033e582",
+        "B",
+        8
+      ],
+      [
+        "2f68bf7a23ae",
+        "RF_MEM",
+        "bdea1033e582",
+        "SEL",
+        1
+      ],
+      [
+        "bdea1033e582",
+        "Q",
+        "bb9fdcc47409",
+        "A",
+        8
+      ],
+      [
+        "b3fbd33e4b6a",
+        "R1",
+        "bb9fdcc47409",
+        "B",
+        8
+      ],
+      [
+        "2f68bf7a23ae",
+        "RF_REG",
+        "bb9fdcc47409",
+        "SEL",
+        1
+      ],
+      [
+        "2f68bf7a23ae",
+        "IMM",
+        "656479d7f241",
+        "A",
+        8
+      ],
+      [
+        "a77c04de6f74",
+        "Q",
+        "656479d7f241",
+        "B",
+        8
+      ],
+      [
+        "2f68bf7a23ae",
+        "PC_MEM",
+        "656479d7f241",
+        "SEL",
+        1
+      ],
+      [
+        "b3fbd33e4b6a",
+        "R0",
+        "f203b5cc9b34",
+        "A",
+        8
+      ],
+      [
+        "5460d1e6f946",
+        "Q",
+        "f203b5cc9b34",
+        "B",
+        8
+      ],
+      [
+        "2f68bf7a23ae",
+        "MEM_PC",
+        "f203b5cc9b34",
+        "SEL",
+        1
+      ],
+      [
+        "2f68bf7a23ae",
+        "MEM_A",
+        "a77c04de6f74",
+        "A",
+        8
+      ],
+      [
+        "f203b5cc9b34",
+        "Q",
+        "a77c04de6f74",
+        "D",
+        8
+      ],
+      [
+        "2f68bf7a23ae",
+        "MEM_WE",
+        "a77c04de6f74",
+        "WE",
+        1
+      ],
+      [
+        "a77c04de6f74",
+        "Q",
+        "2f68bf7a23ae",
+        "MEM_Q",
+        8
+      ]
+    ]
+  }
+}

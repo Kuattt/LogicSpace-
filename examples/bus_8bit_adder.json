@@ -1,0 +1,166 @@
+{
+  "format": "logicspace",
+  "version": 1,
+  "tick": 0,
+  "components": [
+    {
+      "id": "159b26c67d16",
+      "kind": "Bus Input",
+      "x": 40,
+      "y": 80,
+      "params": {
+        "width": 8,
+        "value": 58,
+        "display": "hex",
+        "label": "A"
+      },
+      "state": {}
+    },
+    {
+      "id": "fa8b4b04016e",
+      "kind": "Bus Input",
+      "x": 40,
+      "y": 320,
+      "params": {
+        "width": 8,
+        "value": 23,
+        "display": "hex",
+        "label": "B"
+      },
+      "state": {}
+    },
+    {
+      "id": "f2e6164e0542",
+      "kind": "INPUT",
+      "x": 380,
+      "y": 550,
+      "params": {
+        "value": 0,
+        "label": "CIN"
+      },
+      "state": {}
+    },
+    {
+      "id": "ec893c45795b",
+      "kind": "Adder",
+      "x": 420,
+      "y": 170,
+      "params": {
+        "width": 8
+      },
+      "state": {}
+    },
+    {
+      "id": "b03475a5c2a2",
+      "kind": "Bus Probe",
+      "x": 780,
+      "y": 205,
+      "params": {
+        "width": 8,
+        "display": "hex"
+      },
+      "state": {}
+    }
+  ],
+  "wires": [
+    {
+      "id": "e5c978f167af",
+      "source": "159b26c67d16",
+      "source_pin": "Q",
+      "target": "ec893c45795b",
+      "target_pin": "A",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "88d703eb3141",
+      "source": "fa8b4b04016e",
+      "source_pin": "Q",
+      "target": "ec893c45795b",
+      "target_pin": "B",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "B0",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5",
+        "B6",
+        "B7"
+      ],
+      "kind": "bus"
+    },
+    {
+      "id": "d5c479b85ab7",
+      "source": "f2e6164e0542",
+      "source_pin": "Q",
+      "target": "ec893c45795b",
+      "target_pin": "CIN",
+      "bends": []
+    },
+    {
+      "id": "9e009e373013",
+      "source": "ec893c45795b",
+      "source_pin": "Q",
+      "target": "b03475a5c2a2",
+      "target_pin": "D",
+      "bends": [],
+      "width": 8,
+      "source_bits": [
+        "Q0",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "Q7"
+      ],
+      "target_bits": [
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7"
+      ],
+      "kind": "bus"
+    }
+  ],
+  "blocks": {}
+}

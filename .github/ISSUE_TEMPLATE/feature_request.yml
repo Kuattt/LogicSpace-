@@ -1,0 +1,24 @@
+name: Feature request
+description: Suggest a useful circuit or workflow improvement
+title: '[Feature] '
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Desired behavior
+      description: Describe the expected simulation or editor behavior, including unsupported HDL cases where relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example circuit or workflow
+    validations:
+      required: false
