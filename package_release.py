@@ -29,6 +29,9 @@ def release_files(root=ROOT):
         if not entry: continue
         name = entry.decode("utf-8")
         path = Path(name)
+        # The website is built and published separately from the desktop source ZIP.
+        if path.parts[0] == "website":
+            continue
         if (path.is_absolute() or ".." in path.parts or
                 not (len(path.parts) == 1 and (path.name in ROOT_NAMES or path.suffix == ".py") or
                      path.parts[0] in DIRECTORIES and path.suffix in SUFFIXES)):
