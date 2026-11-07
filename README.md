@@ -46,7 +46,7 @@ cd LogicSpace-3.0.0  # or the directory you cloned
 ./launch.sh
 ~~~
 
-The installer places PySide6 Essentials in the project-local .deps directory when needed and creates a desktop entry under your user account. It does not require sudo. Python 3.12 or newer and a graphical Linux session are required. A prebuilt Debian or AppImage package is not provided.
+The installer places PySide6 Essentials in the project-local .deps directory when needed and creates a desktop entry under your user account. It does not require sudo. Python 3.12 or newer and a graphical Linux session are required. Minimal Linux installations may also need Ubuntu's `libegl1` package (`sudo apt install libegl1`). A prebuilt Debian or AppImage package is not provided.
 
 ### Dependencies
 
@@ -54,6 +54,7 @@ The installer places PySide6 Essentials in the project-local .deps directory whe
 | --- | --- |
 | Python 3.12+ | Application and simulator |
 | PySide6-Essentials 6.7–6.x | Native desktop GUI |
+| libegl1 (Ubuntu package) | Qt graphics runtime on minimal installations |
 | Python standard library | JSON projects, assembler, HTTP update checks, tests |
 
 Optional: Icarus Verilog (iverilog and vvp), Yosys, Verilator, GTKWave and Bubblewrap. External HDL execution requires usable Bubblewrap namespaces; installing the executables alone may not be enough. LogicSpace runs without any of these optional tools.

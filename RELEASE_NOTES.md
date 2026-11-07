@@ -20,7 +20,7 @@ Download the source ZIP, extract it to a directory you own, then run:
 ./launch.sh
 ~~~
 
-Python 3.12+ and a graphical Linux session are required. The installer adds PySide6 Essentials to the local .deps directory and creates a user desktop entry. No sudo is needed.
+Python 3.12+ and a graphical Linux session are required. The installer adds PySide6 Essentials to the local .deps directory and creates a user desktop entry. No sudo is needed for the installer; minimal Linux installations may need `sudo apt install libegl1` for Qt.
 
 ## Verification and limits
 

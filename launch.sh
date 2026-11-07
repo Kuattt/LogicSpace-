@@ -4,8 +4,8 @@ project_dir="$(cd -- "$(dirname -- "$0")" && pwd)"
 if [[ -d "$project_dir/.deps/PySide6" ]]; then
   export PYTHONPATH="$project_dir/.deps${PYTHONPATH:+:$PYTHONPATH}"
 fi
-if ! python3 -c 'import PySide6' >/dev/null 2>&1; then
-  echo "PySide6 is missing. Run: $project_dir/install.sh" >&2
+if ! python3 -c 'from PySide6.QtWidgets import QApplication'; then
+  echo "LogicSpace needs PySide6 and Qt runtime libraries. Run $project_dir/install.sh; on minimal Ubuntu installs, install the libegl1 package." >&2
   exit 1
 fi
 cd "$project_dir"
