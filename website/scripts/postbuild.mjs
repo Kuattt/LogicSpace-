@@ -19,8 +19,16 @@ if (
 ) {
   throw new Error('SITE_URL/CF_PAGES_URL must be a clean HTTPS origin')
 }
-const origin = parsed.origin
 const isPreview = Boolean(process.env.CF_PAGES_BRANCH && process.env.CF_PAGES_BRANCH !== 'main')
+let origin = parsed.origin
+// CF_PAGES_URL can point at a hash-specific deployment. Use the stable Pages
+// project hostname for production SEO unless an explicit SITE_URL was supplied.
+if (!process.env.SITE_URL && process.env.CF_PAGES_BRANCH === 'main') {
+  const labels = parsed.hostname.split('.')
+  if (labels.length === 4 && labels.slice(-2).join('.') === 'pages.dev') {
+    origin = `https://${labels.slice(1).join('.')}`
+  }
+}
 const paths = [
   '/',
   '/features',

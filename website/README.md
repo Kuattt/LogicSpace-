@@ -22,6 +22,8 @@ npm run build
 
 `SITE_URL=https://your-site.example npm run build` generates a sitemap, canonical URL, absolute Open Graph image URL, and `robots.txt` for that origin. Cloudflare Pages supplies `CF_PAGES_URL` automatically. Builds on a preview branch include `noindex, nofollow` metadata and disallow crawling in `robots.txt`.
 
+For production on Pages, the build normalizes a hash-specific `CF_PAGES_URL` to the stable `<project>.pages.dev` hostname. If a custom domain is added later, set `SITE_URL` explicitly to that HTTPS origin.
+
 ## Cloudflare Pages Git Integration
 
 Use the official GitHub repository `Kuattt/LogicSpace-` and grant the Cloudflare GitHub app access only to that repository.
