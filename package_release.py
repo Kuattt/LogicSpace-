@@ -14,12 +14,15 @@ from version import APP_VERSION
 ROOT = Path(__file__).resolve().parent
 PREFIX = f"LogicSpace-{APP_VERSION}/"
 DIRECTORIES = {".github", "docs", "examples", "resources", "tests"}
+WINDOWS_FILES = {"windows/LogicSpace.nsi.in", "windows/LogicSpace.spec",
+                 "windows/README-BUILD.txt", "windows/build.py",
+                 "windows/requirements-build.txt"}
 ROOT_NAMES = {".gitignore", "README.md", "CHANGELOG.md", "RELEASE_NOTES.md",
               "CONTRIBUTING.md", "SECURITY.md", "requirements.txt", "install.sh", "launch.sh"}
 SUFFIXES = {".py", ".sh", ".md", ".txt", ".json", ".sv", ".v", ".asm",
             ".bin", ".hex", ".png", ".svg", ".yml", ".yaml"}
 REQUIRED = {"README.md", "RELEASE_NOTES.md", "requirements.txt", "install.sh",
-            "launch.sh", "main.py", "engine.py", "version.py"}
+            "launch.sh", "main.py", "engine.py", "version.py"} | WINDOWS_FILES
 
 
 def release_files(root=ROOT):
@@ -34,7 +37,8 @@ def release_files(root=ROOT):
             continue
         if (path.is_absolute() or ".." in path.parts or
                 not (len(path.parts) == 1 and (path.name in ROOT_NAMES or path.suffix == ".py") or
-                     path.parts[0] in DIRECTORIES and path.suffix in SUFFIXES)):
+                     path.parts[0] in DIRECTORIES and path.suffix in SUFFIXES or
+                     name in WINDOWS_FILES)):
             raise ValueError(f"Refusing unreviewed release path: {name}")
         full = root / path
         if not full.is_file() or full.is_symlink() or full.stat().st_size > 8 * 1024 * 1024:

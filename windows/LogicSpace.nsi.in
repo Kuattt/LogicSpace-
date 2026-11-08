@@ -2,7 +2,7 @@ Unicode True
 !include "MUI2.nsh"
 !include "x64.nsh"
 
-Name "LogicSpace 3.0.0"
+Name "LogicSpace @VERSION@"
 OutFile "@OUTPUT@"
 InstallDir "$LOCALAPPDATA\Programs\LogicSpace"
 InstallDirRegKey HKCU "Software\LogicSpace\Installer" "InstallDir"
@@ -12,10 +12,10 @@ SetCompressor /SOLID lzma
 !define MUI_UNICON "@ICON@"
 !define MUI_FINISHPAGE_RUN "$INSTDIR\LogicSpace.exe"
 
-VIProductVersion "3.0.0.0"
+VIProductVersion "@VERSION4@"
 VIAddVersionKey "ProductName" "LogicSpace"
 VIAddVersionKey "FileDescription" "LogicSpace installer"
-VIAddVersionKey "FileVersion" "3.0.0"
+VIAddVersionKey "FileVersion" "@VERSION@"
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_DIRECTORY
@@ -43,8 +43,8 @@ Section "LogicSpace (required)" SEC_MAIN
   CreateShortCut "$SMPROGRAMS\LogicSpace\LogicSpace.lnk" "$INSTDIR\LogicSpace.exe"
   CreateShortCut "$SMPROGRAMS\LogicSpace\Uninstall LogicSpace.lnk" "$INSTDIR\Uninstall.exe"
   WriteRegStr HKCU "Software\LogicSpace\Installer" "InstallDir" "$INSTDIR"
-  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "DisplayName" "LogicSpace 3.0.0"
-  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "DisplayVersion" "3.0.0"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "DisplayName" "LogicSpace @VERSION@"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "DisplayVersion" "@VERSION@"
   WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "UninstallString" "$\"$INSTDIR\Uninstall.exe$\""
   WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "DisplayIcon" "$INSTDIR\LogicSpace.exe"
   WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "NoModify" 1

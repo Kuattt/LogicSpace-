@@ -2,7 +2,7 @@
 
 **Build digital circuits. See signals move. Understand the machine you built.**
 
-LogicSpace is a native Python and PySide6 desktop sandbox for Ubuntu/Linux. Its canvas is a circuit editor backed by a digital logic simulator: wires connect actual pins, clocks advance state, and debugging tools inspect simulated values. Projects are human-readable JSON.
+LogicSpace is a Python and PySide6 desktop sandbox for digital circuits. Its canvas is backed by a digital logic simulator: wires connect actual pins, clocks advance state, and debugging tools inspect simulated values. Projects are human-readable JSON. The published 3.0.0 release targets Ubuntu/Linux; a Windows 10/11 x64 installer and portable package are being prepared for 3.1.0.
 
 ![LogicSpace circuit workspace](docs/screenshots/workspace.png)
 
@@ -38,15 +38,23 @@ The example opens as an editable copy. The bundled source file is not changed.
 
 ## Install on Ubuntu 24.04+
 
-Download the source ZIP from [Releases](https://github.com/Kuattt/LogicSpace-/releases) or clone this repository. Unpack it into a directory you own, then run:
+Download the current source ZIP from [GitHub Releases](https://github.com/Kuattt/LogicSpace-/releases) or clone this repository. Unpack it into a directory you own, then run:
 
 ~~~bash
-cd LogicSpace-3.0.0  # or the directory you cloned
+cd LogicSpace-3.0.0  # use the extracted version directory, or your clone
 ./install.sh
 ./launch.sh
 ~~~
 
 The installer places PySide6 Essentials in the project-local .deps directory when needed and creates a desktop entry under your user account. It does not require sudo. Python 3.12 or newer and a graphical Linux session are required. Minimal Linux installations may also need Ubuntu's `libegl1` package (`sudo apt install libegl1`). A prebuilt Debian or AppImage package is not provided.
+
+## Windows 10/11 x64 release candidate
+
+The [native Windows CI workflow](https://github.com/Kuattt/LogicSpace-/actions/workflows/windows-build.yml) builds one installer (`LogicSpace-Setup.exe`) and one portable archive (`LogicSpace-Windows-x64.zip`). Both contain the same PyInstaller application, Python 3.12 runtime and PySide6/Qt files; neither needs a separate Python installation. The 3.1.0 candidate must pass that workflow before release. Until then, use the [Releases page](https://github.com/Kuattt/LogicSpace-/releases) for public downloads; CI artifacts are not published release downloads.
+
+The installer runs per user and provides a Start menu shortcut, an optional desktop shortcut and an uninstaller. For the portable version, extract the entire ZIP and run `LogicSpace/LogicSpace.exe`. User projects should be saved outside the application folder; settings, templates and the component library use `%LOCALAPPDATA%\LogicSpace`. The Windows CI checks silent install, launch, reinstall and uninstall, but an interactive Windows 10/11 review of the wizard and circuit workflows is still outstanding. The packages are unsigned, so Windows SmartScreen may display a warning. Do not disable Windows security features.
+
+External Icarus, Yosys and Verilator execution is unavailable on Windows because the current restricted subprocess runner uses Linux Bubblewrap. Internal HDL editing, import/export and LogicSpace simulation remain available. GTKWave requires a separate compatible installation.
 
 ### Dependencies
 
@@ -67,6 +75,8 @@ python3 -m pip install -r requirements.txt
 ~~~
 
 Do not put personal projects inside a release archive before sharing it. User libraries, templates, tutorial progress, gallery records, benchmark history and update preferences are stored under ~/.local/share/logicspace. The source-based updater never replaces those files.
+
+On Windows, the corresponding user data is under `%LOCALAPPDATA%\LogicSpace`. Removing the application does not intentionally remove that directory. Back up important projects before changing installations.
 
 ## Architecture overview
 
@@ -124,8 +134,19 @@ The Bench tab builds standard circuits, measures construction separately from si
 - The simulator does not model physical propagation, setup/hold timing or a full HDL delta-cycle queue.
 - FPGA profiles are supplied by users; real synthesis and board behavior require external tools and verification.
 - Automatic in-place installation and rollback are unavailable for source checkouts. A separately packaged, versioned Linux install would be needed.
+- Windows packages have passed automated Windows CI but still need interactive testing on Windows 10 and 11; external HDL tools are unavailable there.
 - A native Linux package, automated desktop interaction tests, a video walkthrough and a project format migration path are future work.
+
+## FAQ
+
+**Can I open an older project?** Existing JSON projects remain supported; five bundled older examples were loaded and stepped during release preparation. Keep a backup before editing valuable projects.
+
+**Does LogicSpace simulate physical timing?** No. Timing Diagram steps are logical simulation steps, not calibrated hardware time.
+
+**Does FPGA export build a bitstream?** No. It prepares checked HDL and constraint files; synthesis and board programming require external tools.
+
+**How do updates work?** The app can check GitHub Releases and open the official release page. It does not silently install or replace files.
 
 See [CHANGELOG](CHANGELOG.md), [release notes](RELEASE_NOTES.md), [Issues](https://github.com/Kuattt/LogicSpace-/issues) and [Releases](https://github.com/Kuattt/LogicSpace-/releases). Before contributing, read [CONTRIBUTING](CONTRIBUTING.md) and [SECURITY](SECURITY.md).
 
-**License:** no project license has been selected yet. The repository's visibility does not grant reuse or redistribution rights; the owner must choose a license before inviting third-party redistribution.
+**Licensing status:** the published 3.0.0 source archive contains no project license. Proposed source-available and commercial terms remain unapproved drafts and are not part of that release. This repository is not represented as OSI Open Source. Public GitHub visibility permits viewing and platform forking under GitHub's own terms; it does not establish general redistribution or commercial rights. PySide6/Qt and other third-party materials retain their separate licenses. A new binary release requires review of those obligations and the rights to included resources before publication.

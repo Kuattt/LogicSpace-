@@ -1,29 +1,26 @@
-# LogicSpace 3.0.0
+# LogicSpace 3.1.0 — Release candidate
 
-The first source release of LogicSpace, a native Ubuntu/Linux digital circuit editor and logical simulator.
+**Unpublished preparation notes.** The latest public release remains [v3.0.0](https://github.com/Kuattt/LogicSpace-/releases/tag/v3.0.0). Do not present the assets below as public downloads before a checked 3.1.0 release exists.
 
-## Highlights
+## What's new
 
-- Editable digital circuits with gates, buses, clocks, registers, RAM/ROM, CPU building blocks and reusable custom components.
-- Wired 8-bit CPU and ISA 2.1 Assembly workflow, with ROM programming and debugging.
-- Timing Diagram, Logic Analyzer, Signal Tracing, Testbench, Time Travel, Memory Inspector and watchpoints.
-- A checked Verilog/SystemVerilog subset that imports to real circuit components; limited export and optional external tool checks.
-- First-run half-adder example, templates, tutorials, project gallery and data-only ZIP sharing.
-- Release checks through GitHub's API, at most once per day by default. The source distribution opens the official release page for manual updates; it does not replace local code automatically.
+- Windows 10/11 x64 packages: a per-user graphical installer and a portable ZIP, built from the same LogicSpace application as the Ubuntu/Linux source distribution.
+- Windows user data is stored under `%LOCALAPPDATA%\LogicSpace`, outside the installation folder. The uninstaller leaves projects and settings in place.
+- Native Windows CI builds both packages and checks Python tests, SHA-256, offscreen startup, reinstall and uninstall.
+- The existing Ubuntu/Linux source installation, simulator, CPU/Assembly, HDL subset and debugging tools remain available.
 
-## Install
+## Installation
 
-Download the source ZIP, extract it to a directory you own, then run:
+**Windows:** after publication, download `LogicSpace-Setup.exe` from the 3.1.0 GitHub Release and follow the installer, or download `LogicSpace-Windows-x64.zip`, extract the whole archive and run `LogicSpace/LogicSpace.exe`. No separate Python installation is required. Packages are unsigned; keep Windows security protections enabled.
 
-~~~bash
-./install.sh
-./launch.sh
-~~~
+**Ubuntu 24.04+:** download the source ZIP from the same release, extract it to a directory you own, then run `./install.sh` and `./launch.sh`. Python 3.12+ and a graphical session are required. Minimal installations may need the `libegl1` system package.
 
-Python 3.12+ and a graphical Linux session are required. The installer adds PySide6 Essentials to the local .deps directory and creates a user desktop entry. No sudo is needed for the installer; minimal Linux installations may need `sudo apt install libegl1` for Qt.
+Verify downloads with the release's `SHA256SUMS.txt`. The [website](https://logicspace.pages.dev/) and [detailed guide](https://github.com/Kuattt/LogicSpace-/blob/main/docs/detailed-guide.md) provide further instructions.
 
-## Verification and limits
+## Known limitations and release gates
 
-The release candidate must pass the repository's unittest suite, py_compile, existing project load checks and a Wayland launch smoke test before tagging. The LogicSpace simulator models logical steps, not physical timing. HDL support is a subset. FPGA package export is not synthesis or programming. Independent Icarus/Yosys/Verilator runs depend on local tools and sandbox support. There is no safe in-place auto-install for editable source checkouts, nor a prebuilt .deb/AppImage in this release.
-
-No LICENSE has been selected by the repository owner. Public visibility does not itself grant redistribution rights.
+- Windows CI uses Qt offscreen startup checks. The installer wizard, desktop shortcuts, interactive circuit editing, Defender/SmartScreen behavior and real Windows 10/11 sessions still need manual review.
+- External Icarus, Yosys and Verilator execution requires Linux Bubblewrap and is unavailable on Windows. Internal HDL editing, import/export and LogicSpace simulation remain available.
+- HDL covers a documented subset. FPGA export does not synthesize or program hardware. Simulation steps are logical, not physical time.
+- Automatic in-place updates are unavailable for source checkouts and Windows packages; the app opens the official release page for manual updates.
+- Public distribution of Windows bundles requires a completed review of PySide6/Qt and bundled third-party notices, source availability obligations and resource provenance. Proposed LogicSpace licensing documents are drafts pending rights-holder and Kazakhstan legal review; they are not retroactive to v3.0.0.

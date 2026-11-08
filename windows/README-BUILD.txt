@@ -1,4 +1,4 @@
-LogicSpace 3.0.0 Windows x64 build
+LogicSpace 3.1.0 Windows x64 build
 ==================================
 
 Build on Windows 10/11 x64 with 64-bit Python 3.12 and NSIS 3 installed.

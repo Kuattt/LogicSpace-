@@ -13,7 +13,9 @@ class WebsiteReleaseSeparationTests(unittest.TestCase):
             root = Path(folder)
             subprocess.run(["git", "init", "-q", str(root)], check=True)
             for name in REQUIRED:
-                (root / name).write_text(name, encoding="utf-8")
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(name, encoding="utf-8")
             site = root / "website"
             site.mkdir()
             (site / "index.html").write_text("<h1>LogicSpace</h1>", encoding="utf-8")

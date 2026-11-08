@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 BUILD = ROOT / "build" / "windows"
 STAGE = BUILD / "dist" / "LogicSpace"
 OUTPUT = ROOT / "dist" / "windows"
-VERSION = "3.0.0"
+VERSION = "3.1.0"
 
 
 def require_windows_x64():
@@ -82,7 +82,7 @@ def verify_stage(stage):
 
 def write_readme(path):
     path.write_text(
-        "LogicSpace 3.0.0 for Windows 10 (1809+) / Windows 11 x64\n"
+        f"LogicSpace {VERSION} for Windows 10 (1809+) / Windows 11 x64\n"
         "\nPortable: extract the full ZIP to a writable directory and run LogicSpace\\LogicSpace.exe.\n"
         "Installer: run LogicSpace-Setup.exe and follow the wizard. It installs for the current user.\n"
         "No separate Python or PySide6 installation is required.\n"
@@ -149,7 +149,9 @@ def package():
     directories = sorted((path.relative_to(STAGE) for path in STAGE.rglob("*") if path.is_dir()),
                          key=lambda path: (len(path.parts), str(path)), reverse=True)
     remove_dirs = [f'  RMDir "$INSTDIR\\{literal(path).replace(os.sep, chr(92))}"' for path in directories]
-    script = (template.replace("@OUTPUT@", literal(installer))
+    script = (template.replace("@VERSION4@", VERSION + ".0")
+             .replace("@VERSION@", VERSION)
+             .replace("@OUTPUT@", literal(installer))
              .replace("@ICON@", literal(icon))
              .replace("@INSTALL_FILES@", "\n".join(install_commands))
              .replace("@UNINSTALL_FILES@", "\n".join(uninstall_commands))

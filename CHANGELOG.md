@@ -1,5 +1,12 @@
 # LogicSpace changelog
 
+## 3.1.0 — Release candidate (unpublished)
+
+- Prepared Windows 10/11 x64 installer and portable ZIP from the same application and simulator, with per-user data storage and an uninstaller that preserves user files.
+- Added a native Windows CI workflow for tests, package builds, checksum checks, launch smoke tests, reinstall and uninstall. Earlier Windows CI for the 3.0.0-based branch passed 337 tests with one platform-specific skip; the 3.1.0 candidate needs its own successful run.
+- Kept Ubuntu/Linux source installation and older project formats. The source-release allowlist now includes reviewed Windows build files while excluding the separately built website.
+- External HDL tools remain unavailable on Windows because the restricted runner currently depends on Linux Bubblewrap. The packages are unsigned; interactive Windows testing and third-party distribution review remain release gates.
+
 ## 3.0.0 — Public source release candidate
 
 - Prepared a project-local Git repository, Ubuntu CI test workflow, source ZIP packaging, contribution/security guidance, issue templates and an English release README with application screenshots.
