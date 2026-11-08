@@ -34,6 +34,9 @@ try {
     deviceScaleFactor: 1,
   })
   page.on('pageerror', (error) => errors.push(error.message))
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text())
+  })
   const discovered = new Set()
   for (const path of routes) {
     const response = await page.goto(base + path)
@@ -106,6 +109,9 @@ try {
     hasTouch: true,
   })
   mobile.on('pageerror', (error) => errors.push(error.message))
+  mobile.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text())
+  })
   await mobile.goto(base + '/')
   for (const image of await mobile.locator('img').all()) await image.scrollIntoViewIfNeeded()
   await mobile.waitForFunction(() =>
