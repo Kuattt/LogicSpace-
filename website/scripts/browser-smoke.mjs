@@ -9,6 +9,8 @@ const routes = [
   '/install',
   '/docs',
   '/docs/getting-started',
+  '/docs/linux-guide',
+  '/docs/windows-guide',
   '/docs/interface',
   '/docs/circuit-editor',
   '/docs/simulator',
@@ -18,6 +20,7 @@ const routes = [
   '/docs/debugger',
   '/docs/fpga',
   '/docs/faq',
+  '/docs/known-limitations',
   '/docs/troubleshooting',
   '/releases',
   '/about',
@@ -143,7 +146,7 @@ try {
   }
   assert.deepEqual(errors, [], 'browser JS errors')
   console.log(
-    'Browser smoke passed: 18 routes, internal links, images, circuit toggle, themes, RU search, 404, mobile navigation and widths 320/390/768.',
+    `Browser smoke passed: ${routes.length} routes, internal links, images, circuit toggle, themes, RU search, 404, mobile navigation and widths 320/390/768.`,
   )
 } finally {
   await browser.close()

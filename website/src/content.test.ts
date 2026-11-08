@@ -18,6 +18,9 @@ describe('published content', () => {
     const slugs = docs.map((doc) => doc.slug)
     expect(new Set(slugs).size).toBe(slugs.length)
     expect(docs.length).toBeGreaterThanOrEqual(10)
+    expect(slugs).toContain('linux-guide')
+    expect(slugs).toContain('windows-guide')
+    expect(slugs).toContain('known-limitations')
     for (const feature of features) expect(slugs).toContain(feature.doc)
   })
 

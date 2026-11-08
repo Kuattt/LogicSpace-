@@ -1,6 +1,6 @@
 # LogicSpace website
 
-This directory is the standalone React + TypeScript website for LogicSpace. It is separate from the Python desktop app. Content describes the **published v3.0.0 source release**, including its limitations.
+This directory is the standalone React + TypeScript website for LogicSpace. It is separate from the Python desktop app. Downloads still describe the **published v3.0.0 source release**. The release-preparation branch also contains clearly marked Windows 3.1.0 candidate guidance; it must not be deployed as a 3.1.0 download page until a checked GitHub Release exists.
 
 ## Local development
 

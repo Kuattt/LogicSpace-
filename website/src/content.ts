@@ -64,6 +64,20 @@ export const features: Feature[] = [
     group: 'build',
   },
   {
+    id: 'memory',
+    title: t('Memory components', 'Компоненты памяти'),
+    summary: t(
+      'Connect RAM, ROM and register files directly in a circuit.',
+      'Подключайте RAM, ROM и регистровые файлы прямо в схеме.',
+    ),
+    detail: t(
+      'Inspect addresses and values, define supported read/write modes and track state through Time Travel.',
+      'Просматривайте адреса и значения, выбирайте поддерживаемые режимы чтения и записи и отслеживайте состояние через Time Travel.',
+    ),
+    doc: 'components',
+    group: 'build',
+  },
+  {
     id: 'cpu',
     title: t('Wired CPU architecture', 'CPU из компонентов'),
     summary: t(
@@ -115,6 +129,20 @@ export const features: Feature[] = [
     detail: t(
       'Breakpoints, watchpoints, historical state snapshots and branch navigation help investigate a circuit.',
       'Точки останова, watchpoint, исторические снимки и ветви помогают разбирать работу схемы.',
+    ),
+    doc: 'debugger',
+    group: 'inspect',
+  },
+  {
+    id: 'time-travel',
+    title: t('Time Travel', 'Перемотка симуляции'),
+    summary: t(
+      'Restore and compare recorded simulation states.',
+      'Восстанавливайте и сравнивайте записанные состояния симуляции.',
+    ),
+    detail: t(
+      'Navigate bounded history, place checkpoints and continue from an earlier step on a new branch.',
+      'Перемещайтесь по ограниченной истории, ставьте контрольные точки и продолжайте с прежнего шага в новой ветке.',
     ),
     doc: 'debugger',
     group: 'inspect',
@@ -219,6 +247,70 @@ export const docs: Doc[] = [
         body: t(
           'Use Step on a clocked example, open View → Timing Diagram to record pins, then press F1 for the full in-app guide. Ctrl+F searches components and signals.',
           'Используйте Step для схемы с тактом, откройте View → Timing Diagram для записи пинов и нажмите F1 для встроенного руководства. Ctrl+F ищет компоненты и сигналы.',
+        ),
+      },
+    ],
+  },
+  {
+    slug: 'linux-guide',
+    title: t('Ubuntu / Linux guide', 'Руководство для Ubuntu / Linux'),
+    intro: t(
+      'Install the published source package on Ubuntu 24.04+.',
+      'Установите опубликованный исходный пакет на Ubuntu 24.04+.',
+    ),
+    sections: [
+      {
+        heading: t('Get the official archive', 'Скачайте официальный архив'),
+        body: t(
+          'Use the latest published source ZIP on GitHub Releases. Extract it into a directory you own. The published v3.0.0 archive is the current Linux download while 3.1.0 remains a release candidate.',
+          'Используйте опубликованный исходный ZIP на GitHub Releases. Распакуйте его в свой каталог. Пока 3.1.0 остаётся кандидатом, текущая загрузка Linux — архив v3.0.0.',
+        ),
+      },
+      {
+        heading: t('Install and launch', 'Установите и запустите'),
+        body: t(
+          'Python 3.12+ and a graphical session are required. Run both scripts inside the extracted directory. The installer uses a local .deps folder and creates a user desktop entry; it does not require sudo.',
+          'Нужны Python 3.12+ и графическая сессия. Запустите оба скрипта из распакованного каталога. Установщик использует локальную .deps и создаёт пользовательский ярлык без sudo.',
+        ),
+        code: './install.sh\n./launch.sh',
+      },
+      {
+        heading: t('Missing Qt runtime', 'Не хватает библиотек Qt'),
+        body: t(
+          'A minimal Ubuntu installation may need libegl1. Read the launch error before changing packages.',
+          'Для минимальной Ubuntu может потребоваться libegl1. Сначала прочитайте ошибку запуска.',
+        ),
+        code: 'sudo apt install libegl1',
+      },
+    ],
+  },
+  {
+    slug: 'windows-guide',
+    title: t('Windows release candidate guide', 'Руководство по Windows-кандидату'),
+    intro: t(
+      'Understand the tested Windows packages and what remains before release.',
+      'Узнайте о проверенных Windows-пакетах и оставшихся проверках перед релизом.',
+    ),
+    sections: [
+      {
+        heading: t('Publication status', 'Статус публикации'),
+        body: t(
+          'Windows 10/11 x64 installer and portable packages passed native Windows CI for the 3.1.0 candidate. They are not public GitHub Release downloads yet. Interactive Windows 10/11 testing and distribution review remain open.',
+          'Установщик и portable-пакет для Windows 10/11 x64 прошли нативный Windows CI кандидата 3.1.0. Они ещё не опубликованы как файлы GitHub Release. Остаются ручная проверка Windows и аудит условий распространения.',
+        ),
+      },
+      {
+        heading: t('Installer and portable', 'Установщик и portable'),
+        body: t(
+          'When officially published, the installer will run for the current user with Start menu and optional desktop shortcuts. The portable ZIP will launch after full extraction through LogicSpace/LogicSpace.exe. A separate Python installation is not required.',
+          'После официальной публикации установщик сможет работать в профиле текущего пользователя с ярлыком Start и необязательным ярлыком на рабочем столе. Portable ZIP запускается после полной распаковки через LogicSpace/LogicSpace.exe. Отдельный Python не нужен.',
+        ),
+      },
+      {
+        heading: t('Data and limitations', 'Данные и ограничения'),
+        body: t(
+          'Keep projects outside the application folder. Settings and libraries use %LOCALAPPDATA%\\LogicSpace. External Icarus, Yosys and Verilator execution is unavailable because the current sandbox uses Linux Bubblewrap. The packages are unsigned; do not disable Windows security protections.',
+          'Храните проекты вне каталога приложения. Настройки и библиотеки используют %LOCALAPPDATA%\\LogicSpace. Внешний запуск Icarus, Yosys и Verilator недоступен: текущая изоляция использует Linux Bubblewrap. Пакеты не подписаны; не отключайте защиту Windows.',
         ),
       },
     ],
@@ -485,8 +577,8 @@ export const docs: Doc[] = [
       {
         heading: t('Does it run on Windows or macOS?', 'Работает ли на Windows или macOS?'),
         body: t(
-          'The published instructions and verified launch target Ubuntu 24.04+ and a graphical Linux session. Windows and macOS installers or support are not claimed.',
-          'Опубликованные инструкции и проверенный запуск относятся к Ubuntu 24.04+ с графической сессией. Поддержка или установщики Windows и macOS не заявлены.',
+          'The published v3.0.0 release targets Ubuntu 24.04+. Windows 10/11 x64 packages passed CI as a 3.1.0 candidate but are not published release downloads and have not had interactive Windows testing. No macOS package is offered.',
+          'Опубликованный v3.0.0 предназначен для Ubuntu 24.04+. Windows-пакеты для 10/11 x64 прошли CI как кандидат 3.1.0, но ещё не опубликованы и не проверены вручную в Windows. Пакета для macOS нет.',
         ),
       },
       {
@@ -501,6 +593,37 @@ export const docs: Doc[] = [
         body: t(
           'v3.0.0 is a source ZIP. There is no verified .deb, AppImage or automatic in-place updater for this release.',
           'v3.0.0 поставляется исходным ZIP. Проверенного .deb, AppImage и автоматической замены установленной версии в этом релизе нет.',
+        ),
+      },
+    ],
+  },
+  {
+    slug: 'known-limitations',
+    title: t('Known limitations', 'Известные ограничения'),
+    intro: t(
+      'The simulator and release packages have deliberate, documented boundaries.',
+      'У симулятора и пакетов выпуска есть чётко обозначенные границы.',
+    ),
+    sections: [
+      {
+        heading: t('Logical time', 'Логическое время'),
+        body: t(
+          'Timing Diagram and Time Travel operate on logical simulation steps. They do not measure physical propagation delay or hardware setup and hold time.',
+          'Timing Diagram и Time Travel работают с логическими шагами симуляции. Они не измеряют физические задержки и аппаратные времена setup/hold.',
+        ),
+      },
+      {
+        heading: t('HDL and FPGA', 'HDL и FPGA'),
+        body: t(
+          'Only the documented HDL subset is imported as editable components. FPGA export prepares HDL and constraints; it does not synthesize or program a device. External checks require separately installed tools and the supported sandbox.',
+          'В редактируемые компоненты импортируется только документированное подмножество HDL. FPGA-экспорт готовит HDL и ограничения, но не выполняет синтез и программирование. Внешние проверки требуют отдельных инструментов и поддерживаемой изоляции.',
+        ),
+      },
+      {
+        heading: t('Installation and release status', 'Установка и статус выпуска'),
+        body: t(
+          'The current public Linux distribution is a source ZIP. No .deb or AppImage is verified. The Windows 3.1.0 CI packages remain release candidates pending interactive and distribution review. Automatic in-place updates are unavailable.',
+          'Текущий публичный Linux-дистрибутив — исходный ZIP. Проверенного .deb или AppImage нет. Windows-пакеты 3.1.0 остаются кандидатами до ручной и лицензионной проверки. Автоматической замены установленной версии нет.',
         ),
       },
     ],
