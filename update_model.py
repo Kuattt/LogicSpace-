@@ -13,6 +13,7 @@ from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 from version import APP_VERSION, RELEASES_URL, REPOSITORY
+from app_paths import user_data_dir
 
 API_ROOT = f"https://api.github.com/repos/{REPOSITORY}/releases"
 MAX_RESPONSE = 256 * 1024
@@ -107,7 +108,7 @@ def fetch_release(*, include_prerelease=False, opener=urlopen):
 
 class UpdateSettings:
     def __init__(self, path=None):
-        self.path = Path(path) if path else Path.home() / ".local/share/logicspace/updater.json"
+        self.path = Path(path) if path is not None else user_data_dir() / "updater.json"
 
     def load(self):
         defaults = {"version": 1, "auto_check": True, "include_prerelease": False,
@@ -133,7 +134,8 @@ class UpdateSettings:
         descriptor, name = tempfile.mkstemp(prefix=".updater-", dir=self.path.parent)
         try:
             with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
-                os.fchmod(stream.fileno(), 0o600)
+                if os.name == "posix":
+                    os.fchmod(stream.fileno(), 0o600)
                 json.dump(data, stream)
                 stream.flush(); os.fsync(stream.fileno())
             os.replace(name, self.path)

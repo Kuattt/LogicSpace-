@@ -1,6 +1,7 @@
 """Source ZIP allowlist, checksums and required launch files."""
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -9,6 +10,7 @@ import zipfile
 from package_release import build_package, release_files, verify_package, PREFIX
 
 
+@unittest.skipUnless(shutil.which("git"), "Git CLI required to construct source-release fixtures")
 class ReleasePackageTests(unittest.TestCase):
     def make_repo(self, root):
         subprocess.run(["git", "init", "-q", root], check=True)

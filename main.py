@@ -10,7 +10,7 @@ from pathlib import Path
 from version import APP_VERSION
 from update_view import UpdateController
 
-from PySide6.QtCore import Qt, QPointF, QRectF, QSize, QTimer, QMimeData
+from PySide6.QtCore import Qt, QPointF, QRectF, QSize, QTimer, QMimeData, QStandardPaths
 from PySide6.QtGui import (
     QAction, QColor, QBrush, QPainter, QPainterPath, QPen, QFont,
     QKeySequence, QDrag, QIcon, QPixmap, QCursor, QRadialGradient, QLinearGradient,
@@ -2811,7 +2811,11 @@ class Editor(QMainWindow):
             return False
 
     def save_as(self):
-        path, _ = QFileDialog.getSaveFileName(self, "Save circuit", self.path or "circuit.json", "LogicSpace circuits (*.json)")
+        default = self.path or "circuit.json"
+        if self.path is None and sys.platform == "win32":
+            documents = QStandardPaths.writableLocation(QStandardPaths.DocumentsLocation)
+            default = str((Path(documents) if documents else Path.home()) / "circuit.json")
+        path, _ = QFileDialog.getSaveFileName(self, "Save circuit", default, "LogicSpace circuits (*.json)")
         if not path: return False
         self.path = path if path.endswith(".json") else path + ".json"
         return self.save()

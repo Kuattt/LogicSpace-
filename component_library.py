@@ -11,6 +11,7 @@ import tempfile
 import uuid
 
 from engine import Circuit, pins
+from app_paths import user_data_dir
 
 FORMAT = "logicspace-library-component"
 DEFAULT_CATEGORIES = ("Arithmetic", "Memory", "Registers", "Counters", "CPU", "Custom")
@@ -121,7 +122,7 @@ def validate_definition(definition, name="block", stack=()):
 
 class ComponentLibrary:
     def __init__(self, root=None):
-        self.root = Path(root) if root else Path.home() / ".local/share/logicspace/component_library"
+        self.root = Path(root) if root else user_data_dir() / "component_library"
         self.root.mkdir(parents=True, exist_ok=True)
         for category in DEFAULT_CATEGORIES:
             (self.root / category).mkdir(exist_ok=True)
