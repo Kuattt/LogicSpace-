@@ -214,7 +214,7 @@ class TutorialAndToolTests(unittest.TestCase):
                 "hdl_tools._sandbox", side_effect=ValueError("namespace denied")):
             available, reason = external_availability()
         self.assertFalse(available)
-        self.assertIn("namespace denied", reason)
+        self.assertIn("namespace denied" if os.name == "posix" else "Windows", reason)
 
     def test_external_timeout(self):
         with tempfile.TemporaryDirectory() as folder:

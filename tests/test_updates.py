@@ -91,7 +91,8 @@ class SettingsTests(unittest.TestCase):
             store.save(data)
             self.assertFalse(store.due(now + timedelta(days=2)))
             self.assertTrue(store.load()["include_prerelease"])
-            self.assertEqual(store.path.stat().st_mode & 0o777, 0o600)
+            if os.name == "posix":
+                self.assertEqual(store.path.stat().st_mode & 0o777, 0o600)
 
     def test_corrupt_settings_preserved(self):
         with tempfile.TemporaryDirectory() as folder:

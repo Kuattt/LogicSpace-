@@ -14,6 +14,9 @@ from toolchain_model import run_restricted
 
 def external_availability():
     missing = [name for name in ("iverilog", "vvp", "bwrap") if shutil.which(name) is None]
+    if os.name != "posix":
+        detail = ": " + ", ".join(missing) if missing else ""
+        return False, "External HDL tools unavailable on Windows (Linux Bubblewrap sandbox required)" + detail
     if missing:
         return False, "External HDL tools unavailable: " + ", ".join(missing)
     with tempfile.TemporaryDirectory(prefix="logicspace-hdl-check-") as temporary:

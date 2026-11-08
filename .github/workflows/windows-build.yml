@@ -1,0 +1,88 @@
+name: Windows x64 build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [windows-support]
+  pull_request:
+    paths:
+      - '*.py'
+      - 'tests/**'
+      - 'windows/**'
+      - '.github/workflows/windows-build.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  windows-x64:
+    runs-on: windows-2022
+    timeout-minutes: 60
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r windows/requirements-build.txt
+          choco install nsis --no-progress -y
+      - name: Compile and run tests on Windows
+        run: |
+          python -m compileall -q .
+          python -m unittest discover -s tests -q
+      - name: Build portable ZIP and installer
+        run: python windows/build.py
+      - name: Inspect installer and portable outputs
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $out = Join-Path $PWD 'dist/windows'
+          $zip = Join-Path $out 'LogicSpace-Windows-x64.zip'
+          $setup = Join-Path $out 'LogicSpace-Setup.exe'
+          if (!(Test-Path $zip) -or !(Test-Path $setup)) { throw 'Missing Windows distribution' }
+          foreach ($line in Get-Content (Join-Path $out 'SHA256SUMS.txt')) {
+            if ($line -notmatch '^([0-9a-f]{64})  (.+)$') { throw "Invalid checksum line: $line" }
+            $expected = $Matches[1]
+            $asset = Join-Path $out $Matches[2]
+            $actual = (Get-FileHash -LiteralPath $asset -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($actual -ne $expected) { throw "SHA-256 mismatch: $asset" }
+          }
+          $portable = Join-Path $env:RUNNER_TEMP 'LogicSpace portable relocated'
+          Expand-Archive -LiteralPath $zip -DestinationPath $portable
+          $exe = Join-Path $portable 'LogicSpace/LogicSpace.exe'
+          if (!(Test-Path $exe)) { throw 'Missing portable executable' }
+          $process = Start-Process -FilePath $exe -WorkingDirectory (Split-Path $exe) -PassThru
+          Start-Sleep -Seconds 8
+          if ($process.HasExited) { throw "Portable app exited during startup: $($process.ExitCode)" }
+          Stop-Process -Id $process.Id -Force
+          $install = Join-Path $env:RUNNER_TEMP 'LogicSpace test installation'
+          $userData = Join-Path $env:LOCALAPPDATA 'LogicSpace'
+          New-Item -ItemType Directory -Force -Path $userData | Out-Null
+          Set-Content -LiteralPath (Join-Path $userData 'preserve-me.txt') -Value 'test data'
+          $installed = Start-Process -FilePath $setup -ArgumentList @('/S', "/D=$install") -Wait -PassThru
+          if ($installed.ExitCode -ne 0) { throw "Install failed: $($installed.ExitCode)" }
+          if (!(Test-Path (Join-Path $install 'LogicSpace.exe'))) { throw 'Installed executable missing' }
+          $installedApp = Start-Process -FilePath (Join-Path $install 'LogicSpace.exe') -WorkingDirectory $install -PassThru
+          Start-Sleep -Seconds 8
+          if ($installedApp.HasExited) { throw "Installed app exited during startup: $($installedApp.ExitCode)" }
+          Stop-Process -Id $installedApp.Id -Force
+          $reinstalled = Start-Process -FilePath $setup -ArgumentList @('/S', "/D=$install") -Wait -PassThru
+          if ($reinstalled.ExitCode -ne 0) { throw "Reinstall failed: $($reinstalled.ExitCode)" }
+          if (!(Test-Path (Join-Path $userData 'preserve-me.txt'))) { throw 'Reinstall deleted user data' }
+          $uninstaller = Join-Path $install 'Uninstall.exe'
+          if (!(Test-Path $uninstaller)) { throw 'Uninstaller missing' }
+          $removed = Start-Process -FilePath $uninstaller -ArgumentList @('/S') -Wait -PassThru
+          if ($removed.ExitCode -ne 0) { throw "Uninstall failed: $($removed.ExitCode)" }
+          if (!(Test-Path (Join-Path $userData 'preserve-me.txt'))) { throw 'Uninstall deleted user data' }
+          if (Test-Path (Join-Path $install 'LogicSpace.exe')) { throw 'Uninstall left application executable behind' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LogicSpace-Windows-x64
+          path: dist/windows/*

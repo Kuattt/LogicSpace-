@@ -4,7 +4,6 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
-import resource
 import shutil
 import signal
 import subprocess
@@ -12,6 +11,11 @@ import tempfile
 import time
 
 from hdl_model import import_verilog, parse
+
+try:
+    import resource  # POSIX only; Windows must still be able to import the GUI.
+except ImportError:
+    resource = None
 
 VERSION_ARGS = {"iverilog": ("-V",), "vvp": ("-V",), "yosys": ("-V",),
                 "verilator": ("--version",), "gtkwave": ("--version",)}
@@ -23,6 +27,10 @@ def detect_tool(name):
     if path is None:
         return {"name": name, "installed": False, "path": None, "version": None,
                 "available": False, "last_verification": "Executable not installed"}
+    if name != "gtkwave" and (os.name != "posix" or resource is None):
+        return {"name": name, "installed": True, "path": path, "version": None,
+                "available": False,
+                "last_verification": "External HDL execution requires the Linux Bubblewrap sandbox"}
     try:
         result = subprocess.run([path, *VERSION_ARGS[name]], capture_output=True, text=True,
                                 timeout=3, check=False)
@@ -38,6 +46,8 @@ def detect_tool(name):
 
 
 def _limits():
+    if resource is None:
+        raise ValueError("POSIX resource limits are unavailable on this platform")
     resource.setrlimit(resource.RLIMIT_CPU, (15, 15))
     resource.setrlimit(resource.RLIMIT_AS, (1024 * 1024 * 1024, 1024 * 1024 * 1024))
     resource.setrlimit(resource.RLIMIT_FSIZE, (64 * 1024 * 1024, 64 * 1024 * 1024))
@@ -46,6 +56,8 @@ def _limits():
 
 def run_restricted(command, folder, *, timeout=30, cancelled=None):
     """Run a fixed argv inside Bubblewrap; cancel/timeout kill the process group."""
+    if os.name != "posix" or resource is None:
+        raise ValueError("External HDL execution requires the Linux Bubblewrap sandbox; it is unavailable on Windows")
     bwrap = shutil.which("bwrap")
     if bwrap is None: raise ValueError("Bubblewrap is required to run external HDL tools")
     folder = Path(folder).resolve()
@@ -83,6 +95,8 @@ def _validated_design(source, top):
 
 
 def run_yosys(source, top, *, cancelled=None):
+    if os.name != "posix" or resource is None:
+        raise ValueError("Yosys execution requires the Linux Bubblewrap sandbox; it is unavailable on Windows")
     if shutil.which("yosys") is None: raise ValueError("Yosys is not installed")
     _validated_design(source, top)
     with tempfile.TemporaryDirectory(prefix="logicspace-yosys-") as temporary:
@@ -103,6 +117,8 @@ def run_yosys(source, top, *, cancelled=None):
 
 
 def run_verilator_lint(source, top, *, cancelled=None):
+    if os.name != "posix" or resource is None:
+        raise ValueError("Verilator execution requires the Linux Bubblewrap sandbox; it is unavailable on Windows")
     if shutil.which("verilator") is None: raise ValueError("Verilator is not installed")
     _validated_design(source, top)
     with tempfile.TemporaryDirectory(prefix="logicspace-verilator-") as temporary:
@@ -119,5 +135,5 @@ def open_vcd(path):
     target = Path(path).resolve()
     if not target.is_file() or target.suffix.lower() != ".vcd":
         raise ValueError("Choose an existing VCD waveform file")
-    return subprocess.Popen([executable, str(target)], start_new_session=True,
+    return subprocess.Popen([executable, str(target)], start_new_session=os.name == "posix",
                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
