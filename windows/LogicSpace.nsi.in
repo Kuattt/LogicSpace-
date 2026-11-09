@@ -7,7 +7,7 @@ OutFile "@OUTPUT@"
 InstallDir "$LOCALAPPDATA\Programs\LogicSpace"
 InstallDirRegKey HKCU "Software\LogicSpace\Installer" "InstallDir"
 RequestExecutionLevel user
-SetCompressor /SOLID lzma
+SetCompressor /SOLID zlib
 !define MUI_ICON "@ICON@"
 !define MUI_UNICON "@ICON@"
 !define MUI_FINISHPAGE_RUN "$INSTDIR\LogicSpace.exe"

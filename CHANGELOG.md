@@ -1,12 +1,12 @@
 # LogicSpace changelog
 
-## 3.1.0 — Release candidate (unpublished)
+## 3.1.0 — Linux and Windows release
 
-- Prepared the existing LogicSpace source-available and commercial-licensing drafts for review without changing their terms. Source and Windows packaging now require the project documents, third-party notices and supporting license texts; final publication still depends on rights and dependency review.
+- Included the author-accepted LogicSpace source-available license text without changing its terms; it remains explicitly marked for legal review. Linux source and Windows packages include project documents, third-party notices and supporting license texts.
 - Prepared Windows 10/11 x64 installer and portable ZIP from the same application and simulator, with per-user data storage and an uninstaller that preserves user files.
-- Added a native Windows CI workflow for tests, package builds, checksum checks, launch smoke tests, reinstall and uninstall. Earlier Windows CI for the 3.0.0-based branch passed 337 tests with one platform-specific skip; the 3.1.0 candidate needs its own successful run.
+- Added native Windows CI for tests, package builds, checksum checks, startup, reinstall and uninstall. Windows packages use a separately installed official Microsoft Visual C++ Redistributable x64 rather than redistributing runtime DLL copies. Matching Qt/PySide6 upstream source archives are supplied with the release.
 - Kept Ubuntu/Linux source installation and older project formats. The source-release allowlist now includes reviewed Windows build files while excluding the separately built website.
-- External HDL tools remain unavailable on Windows because the restricted runner currently depends on Linux Bubblewrap. The packages are unsigned; interactive Windows testing and third-party distribution review remain release gates.
+- External HDL tools remain unavailable on Windows because the restricted runner currently depends on Linux Bubblewrap. The packages are unsigned and have not received interactive testing on a separate Windows 10/11 computer.
 
 ## 3.0.0 — Public source release candidate
 

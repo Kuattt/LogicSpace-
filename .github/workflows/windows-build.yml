@@ -62,7 +62,7 @@ jobs:
           }
           $portable = Join-Path $env:RUNNER_TEMP 'LogicSpace portable relocated'
           Expand-Archive -LiteralPath $zip -DestinationPath $portable
-          foreach ($name in @('LICENSE.md', 'COMMERCIAL-LICENSE.md', 'THIRD_PARTY_NOTICES.md', 'licenses/LGPL-3.0.txt', 'licenses/GPL-3.0.txt', 'licenses/Apache-2.0.txt', 'licenses/Python-3.12.txt', 'licenses/Qt-6.9.3-attributions.txt', 'licenses/Mesa-llvmpipe-attribution.txt', 'docs/qt-source-and-replacement-3.1.0.md')) {
+          foreach ($name in @('LICENSE.md', 'COMMERCIAL-LICENSE.md', 'THIRD_PARTY_NOTICES.md', 'licenses/LGPL-3.0.txt', 'licenses/GPL-3.0.txt', 'licenses/Apache-2.0.txt', 'licenses/Python-3.12.txt', 'licenses/Qt-6.9.3-attributions.txt', 'licenses/Mesa-llvmpipe-attribution.txt', 'licenses/NSIS-zlib-license.txt', 'docs/qt-source-and-replacement-3.1.0.md')) {
             $member = Join-Path $portable ('LogicSpace/' + $name)
             if (!(Test-Path $member)) { throw "Missing portable license document: $name" }
           }
@@ -96,7 +96,7 @@ jobs:
           $installed = Start-Process -FilePath $setup -ArgumentList @('/S', "/D=$install") -Wait -PassThru
           if ($installed.ExitCode -ne 0) { throw "Install failed: $($installed.ExitCode)" }
           if (!(Test-Path (Join-Path $install 'LogicSpace.exe'))) { throw 'Installed executable missing' }
-          foreach ($name in @('LICENSE.md', 'COMMERCIAL-LICENSE.md', 'THIRD_PARTY_NOTICES.md', 'licenses/LGPL-3.0.txt', 'licenses/GPL-3.0.txt', 'licenses/Apache-2.0.txt', 'licenses/Python-3.12.txt', 'licenses/Qt-6.9.3-attributions.txt', 'licenses/Mesa-llvmpipe-attribution.txt', 'docs/qt-source-and-replacement-3.1.0.md')) {
+          foreach ($name in @('LICENSE.md', 'COMMERCIAL-LICENSE.md', 'THIRD_PARTY_NOTICES.md', 'licenses/LGPL-3.0.txt', 'licenses/GPL-3.0.txt', 'licenses/Apache-2.0.txt', 'licenses/Python-3.12.txt', 'licenses/Qt-6.9.3-attributions.txt', 'licenses/Mesa-llvmpipe-attribution.txt', 'licenses/NSIS-zlib-license.txt', 'docs/qt-source-and-replacement-3.1.0.md')) {
             if (!(Test-Path (Join-Path $install $name))) { throw "Missing installed license document: $name" }
           }
           $installedApp = Start-Process -FilePath (Join-Path $install 'LogicSpace.exe') -WorkingDirectory $install -PassThru

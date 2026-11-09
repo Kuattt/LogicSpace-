@@ -3,13 +3,17 @@ export type Localized = { en: string; ru: string }
 export const t = (en: string, ru: string): Localized => ({ en, ru })
 
 export const REPO = 'https://github.com/Kuattt/LogicSpace-'
-export const RELEASE = `${REPO}/releases/tag/v3.0.0`
-export const SOURCE_ZIP = `${REPO}/releases/download/v3.0.0/LogicSpace-3.0.0-source.zip`
-export const CHECKSUM_FILE = `${REPO}/releases/download/v3.0.0/SHA256SUMS.txt`
-export const SOURCE_ARCHIVE = `${REPO}/archive/refs/tags/v3.0.0.zip`
-export const GUIDE = `${REPO}/blob/v3.0.0/docs/detailed-guide.md`
-export const CHANGELOG = `${REPO}/blob/v3.0.0/CHANGELOG.md`
-export const SHA256 = 'b3e7034fe56a22bd171b64ece477bfc290a7a0ffdd5ad1b15bd9680657c1bebe'
+export const RELEASE = `${REPO}/releases/tag/v3.1.0`
+export const SOURCE_ZIP = `${REPO}/releases/download/v3.1.0/LogicSpace-3.1.0-source.zip`
+export const WINDOWS_SETUP = `${REPO}/releases/download/v3.1.0/LogicSpace-Setup.exe`
+export const WINDOWS_PORTABLE = `${REPO}/releases/download/v3.1.0/LogicSpace-Windows-x64.zip`
+export const QT_SOURCES = `${REPO}/releases/download/v3.1.0/Qt-sources-6.9.3.zip`
+export const CHECKSUM_FILE = `${REPO}/releases/download/v3.1.0/SHA256SUMS.txt`
+export const SOURCE_ARCHIVE = `${REPO}/archive/refs/tags/v3.1.0.zip`
+export const GUIDE = `${REPO}/blob/v3.1.0/docs/detailed-guide.md`
+export const CHANGELOG = `${REPO}/blob/v3.1.0/CHANGELOG.md`
+export const SHA256 = '78a3ba53975f012a41e70e500f526d1e917ade9f24ea3271cd930f9ae52bf85f'
+export const QT_SOURCES_SHA256 = '7d07f2354f09a423939d3e3055541497d205ecbc9baa5cb3d0b703d646f387ac'
 
 export interface Feature {
   id: string
@@ -262,8 +266,8 @@ export const docs: Doc[] = [
       {
         heading: t('Get the official archive', 'Скачайте официальный архив'),
         body: t(
-          'Use the latest published source ZIP on GitHub Releases. Extract it into a directory you own. The published v3.0.0 archive is the current Linux download while 3.1.0 remains a release candidate.',
-          'Используйте опубликованный исходный ZIP на GitHub Releases. Распакуйте его в свой каталог. Пока 3.1.0 остаётся кандидатом, текущая загрузка Linux — архив v3.0.0.',
+          'Use the latest published source ZIP on GitHub Releases. Extract it into a directory you own. The v3.1.0 source ZIP is the current Linux download.',
+          'Используйте опубликованный исходный ZIP на GitHub Releases. Распакуйте его в свой каталог. Текущая загрузка для Linux — исходный ZIP v3.1.0.',
         ),
       },
       {
@@ -286,24 +290,24 @@ export const docs: Doc[] = [
   },
   {
     slug: 'windows-guide',
-    title: t('Windows release candidate guide', 'Руководство по Windows-кандидату'),
+    title: t('Windows installation guide', 'Руководство по установке в Windows'),
     intro: t(
-      'Understand the tested Windows packages and what remains before release.',
-      'Узнайте о проверенных Windows-пакетах и оставшихся проверках перед релизом.',
+      'Install the published Windows 10/11 x64 packages and understand their limits.',
+      'Установите опубликованные пакеты для Windows 10/11 x64 и узнайте об их ограничениях.',
     ),
     sections: [
       {
         heading: t('Publication status', 'Статус публикации'),
         body: t(
-          'Windows 10/11 x64 installer and portable packages passed native Windows CI for the 3.1.0 candidate. They are not public GitHub Release downloads yet. Interactive Windows 10/11 testing and distribution review remain open.',
-          'Установщик и portable-пакет для Windows 10/11 x64 прошли нативный Windows CI кандидата 3.1.0. Они ещё не опубликованы как файлы GitHub Release. Остаются ручная проверка Windows и аудит условий распространения.',
+          'The v3.1.0 installer and portable ZIP are available from GitHub Releases. Native Windows CI checked startup, installation, reinstall and removal. Interactive testing on a separate Windows 10/11 computer is still outstanding.',
+          'Установщик и portable ZIP v3.1.0 доступны на GitHub Releases. Windows CI проверил запуск, установку, повторную установку и удаление. Интерактивная проверка на отдельном компьютере с Windows 10/11 ещё не проводилась.',
         ),
       },
       {
         heading: t('Installer and portable', 'Установщик и portable'),
         body: t(
-          'When officially published, the installer will run for the current user with Start menu and optional desktop shortcuts. The portable ZIP will launch after full extraction through LogicSpace/LogicSpace.exe. A separate Python installation is not required.',
-          'После официальной публикации установщик сможет работать в профиле текущего пользователя с ярлыком Start и необязательным ярлыком на рабочем столе. Portable ZIP запускается после полной распаковки через LogicSpace/LogicSpace.exe. Отдельный Python не нужен.',
+          'The installer runs for the current user with a Start menu shortcut and optional desktop shortcut. Extract the portable ZIP completely, then run LogicSpace/LogicSpace.exe. Python and PySide6 are bundled. Install the official Microsoft Visual C++ Redistributable x64 separately if needed.',
+          'Установщик работает для текущего пользователя и добавляет ярлык в меню Start; ярлык на рабочем столе необязателен. Полностью распакуйте portable ZIP и запустите LogicSpace/LogicSpace.exe. Python и PySide6 включены. При необходимости отдельно установите официальный Microsoft Visual C++ Redistributable x64.',
         ),
       },
       {
@@ -312,6 +316,28 @@ export const docs: Doc[] = [
           'Keep projects outside the application folder. Settings and libraries use %LOCALAPPDATA%\\LogicSpace. External Icarus, Yosys and Verilator execution is unavailable because the current sandbox uses Linux Bubblewrap. The packages are unsigned; do not disable Windows security protections.',
           'Храните проекты вне каталога приложения. Настройки и библиотеки используют %LOCALAPPDATA%\\LogicSpace. Внешний запуск Icarus, Yosys и Verilator недоступен: текущая изоляция использует Linux Bubblewrap. Пакеты не подписаны; не отключайте защиту Windows.',
         ),
+      },
+      {
+        heading: t('Visual C++ runtime', 'Библиотеки Visual C++'),
+        body: t(
+          'Install the official Microsoft Visual C++ Redistributable x64 if it is not already present. LogicSpace does not bundle copies of Microsoft runtime DLLs.',
+          'Если компонент ещё не установлен, установите официальный Microsoft Visual C++ Redistributable x64. LogicSpace не включает копии DLL Microsoft runtime.',
+        ),
+        link: {
+          title: t('Microsoft download', 'Загрузка Microsoft'),
+          url: 'https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist',
+        },
+      },
+      {
+        heading: t('Qt library source', 'Исходники Qt'),
+        body: t(
+          'The release supplies upstream Qt/PySide6 sources and replacement instructions for the bundled libraries. These libraries retain their own licenses.',
+          'Релиз содержит исходники Qt/PySide6 и инструкции по замене включённых библиотек. Для них действуют собственные лицензии.',
+        ),
+        link: {
+          title: t('Download library sources', 'Скачать исходники библиотек'),
+          url: QT_SOURCES,
+        },
       },
     ],
   },
@@ -506,7 +532,7 @@ export const docs: Doc[] = [
         ),
         link: {
           title: t('Read the HDL examples', 'Смотреть примеры HDL'),
-          url: `${REPO}/tree/v3.0.0/examples/hdl30`,
+          url: `${REPO}/tree/v3.1.0/examples/hdl30`,
         },
       },
     ],
@@ -577,22 +603,22 @@ export const docs: Doc[] = [
       {
         heading: t('Does it run on Windows or macOS?', 'Работает ли на Windows или macOS?'),
         body: t(
-          'The published v3.0.0 release targets Ubuntu 24.04+. Windows 10/11 x64 packages passed CI as a 3.1.0 candidate but are not published release downloads and have not had interactive Windows testing. No macOS package is offered.',
-          'Опубликованный v3.0.0 предназначен для Ubuntu 24.04+. Windows-пакеты для 10/11 x64 прошли CI как кандидат 3.1.0, но ещё не опубликованы и не проверены вручную в Windows. Пакета для macOS нет.',
+          'v3.1.0 supports Ubuntu 24.04+ from source and provides Windows 10/11 x64 installer and portable packages. Windows CI passed; interactive Windows testing on a separate computer is outstanding. No macOS package is offered.',
+          'v3.1.0 поддерживает Ubuntu 24.04+ из исходников и содержит установщик и portable-пакет для Windows 10/11 x64. Windows CI пройден, но ручная проверка на отдельном компьютере остаётся. Пакета для macOS нет.',
         ),
       },
       {
         heading: t('Is LogicSpace open source?', 'LogicSpace — open source?'),
         body: t(
-          'The published v3.0.0 archive has no project license. Later local source-available license drafts are not part of that archive and are not final. Third-party libraries retain their own licenses. Seek explicit permission before redistribution.',
-          'В опубликованном архиве v3.0.0 нет лицензии проекта. Более поздние локальные проекты source-available лицензии в него не входят и не утверждены. Сторонние библиотеки сохраняют свои лицензии. Перед распространением запросите разрешение.',
+          'v3.1.0 includes the author-accepted LogicSpace Proprietary Source-Available License text, still marked as a draft for legal review. It is not OSI Open Source. Distribution and commercial rights require separate written permission; third-party libraries retain their own licenses. v3.0.0 is unchanged.',
+          'v3.1.0 содержит принятый автором текст LogicSpace Proprietary Source-Available License, всё ещё помеченный как проект для юридической проверки. Это не OSI Open Source. Для распространения и коммерческого использования нужно отдельное письменное разрешение; у сторонних библиотек свои лицензии. v3.0.0 не изменён.',
         ),
       },
       {
         heading: t('Is there a ready-made package?', 'Есть готовый пакет?'),
         body: t(
-          'v3.0.0 is a source ZIP. There is no verified .deb, AppImage or automatic in-place updater for this release.',
-          'v3.0.0 поставляется исходным ZIP. Проверенного .deb, AppImage и автоматической замены установленной версии в этом релизе нет.',
+          'v3.1.0 provides a Linux source ZIP and Windows x64 installer and portable ZIP. There is no verified .deb, AppImage or automatic in-place updater.',
+          'v3.1.0 содержит исходный ZIP для Linux и установщик и portable ZIP для Windows x64. Проверенного .deb, AppImage и автоматической замены файлов нет.',
         ),
       },
     ],
@@ -622,8 +648,8 @@ export const docs: Doc[] = [
       {
         heading: t('Installation and release status', 'Установка и статус выпуска'),
         body: t(
-          'The current public Linux distribution is a source ZIP. No .deb or AppImage is verified. The Windows 3.1.0 CI packages remain release candidates pending interactive and distribution review. Automatic in-place updates are unavailable.',
-          'Текущий публичный Linux-дистрибутив — исходный ZIP. Проверенного .deb или AppImage нет. Windows-пакеты 3.1.0 остаются кандидатами до ручной и лицензионной проверки. Автоматической замены установленной версии нет.',
+          'The current Linux distribution is a source ZIP, and Windows has installer and portable packages. No .deb or AppImage is verified. Windows interactive testing on a separate computer remains open. Automatic in-place updates are unavailable.',
+          'Текущий дистрибутив Linux — исходный ZIP, для Windows доступны установщик и portable. Проверенного .deb или AppImage нет. Ручная проверка на отдельном Windows-компьютере остаётся. Автоматической замены файлов нет.',
         ),
       },
     ],

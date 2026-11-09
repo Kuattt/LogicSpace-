@@ -1,6 +1,6 @@
 # LogicSpace website
 
-This directory is the standalone React + TypeScript website for LogicSpace. It is separate from the Python desktop app. Downloads still describe the **published v3.0.0 source release**. The release-preparation branch also contains clearly marked Windows 3.1.0 candidate guidance; it must not be deployed as a 3.1.0 download page until a checked GitHub Release exists.
+This directory is the standalone React + TypeScript website for LogicSpace. It is separate from the Python desktop app. The 3.1.0 download page lists the Linux source ZIP, Windows installer, Windows portable ZIP and Qt source asset from the matching GitHub Release. Deploy this source only after all those release assets have been published and checked.
 
 ## Local development
 
@@ -50,4 +50,4 @@ No GitHub or Cloudflare tokens are required in the repository. This site uses no
 
 ## Source of product claims
 
-Release links and archive SHA-256 are in `src/content.ts`. Documentation and product descriptions were checked against the published v3.0.0 tag, release assets, README, changelog, `install.sh`, and screenshots. Update those references only after checking a new published release. The published source ZIP contains no project license; later local licensing drafts are not presented as final terms here.
+Release links and SHA-256 digests are in `src/content.ts`. Before production upload, check each URL and digest against the published release. The site describes the author-accepted LogicSpace license text as still marked for legal review and does not change the earlier v3.0.0 release.

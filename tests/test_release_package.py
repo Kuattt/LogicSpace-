@@ -48,6 +48,7 @@ class ReleasePackageTests(unittest.TestCase):
                              "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt",
                              "licenses/Qt-6.9.3-attributions.txt",
                              "licenses/Mesa-llvmpipe-attribution.txt",
+                             "licenses/NSIS-zlib-license.txt",
                              "docs/qt-source-and-replacement-3.1.0.md"):
                     self.assertEqual(archive.read(PREFIX + name), name.encode("utf-8"))
                 self.assertEqual(archive.read(PREFIX + "engine.py"), b"engine.py")

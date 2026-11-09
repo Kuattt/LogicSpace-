@@ -27,6 +27,7 @@ RELEASE_DOCUMENTS = (
     "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt",
     "licenses/Qt-6.9.3-attributions.txt",
     "licenses/Mesa-llvmpipe-attribution.txt",
+    "licenses/NSIS-zlib-license.txt",
     "docs/qt-source-and-replacement-3.1.0.md",
 )
 MICROSOFT_RUNTIME_NAMES = {"ucrtbase.dll", "concrt140.dll", "vccorlib140.dll"}

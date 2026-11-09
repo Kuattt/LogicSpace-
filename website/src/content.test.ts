@@ -33,7 +33,7 @@ describe('published content', () => {
 
   it('points to the official source asset and its verified digest', () => {
     expect(SOURCE_ZIP).toBe(
-      'https://github.com/Kuattt/LogicSpace-/releases/download/v3.0.0/LogicSpace-3.0.0-source.zip',
+      'https://github.com/Kuattt/LogicSpace-/releases/download/v3.1.0/LogicSpace-3.1.0-source.zip',
     )
     expect(SHA256).toMatch(/^[0-9a-f]{64}$/)
   })

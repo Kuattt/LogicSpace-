@@ -29,6 +29,7 @@ class WindowsCompatibilityTests(unittest.TestCase):
     def test_installer_preserves_user_files_and_uses_per_user_registry(self):
         template = (Path(__file__).resolve().parents[1] / "windows" / "LogicSpace.nsi.in").read_text(encoding="utf-8")
         self.assertIn("RequestExecutionLevel user", template)
+        self.assertIn("SetCompressor /SOLID zlib", template)
         self.assertIn("$LOCALAPPDATA\\Programs\\LogicSpace", template)
         self.assertIn("WriteRegStr HKCU", template)
         self.assertNotIn("RMDir /r", template)

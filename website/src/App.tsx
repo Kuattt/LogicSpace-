@@ -38,10 +38,14 @@ import {
   GUIDE,
   RELEASE,
   REPO,
+  QT_SOURCES,
+  QT_SOURCES_SHA256,
   searchDocs,
   SHA256,
   SOURCE_ARCHIVE,
   SOURCE_ZIP,
+  WINDOWS_PORTABLE,
+  WINDOWS_SETUP,
   t,
   type Feature,
   type Language,
@@ -264,7 +268,7 @@ function Footer({ language }: { language: Language }) {
         </div>
       </div>
       <div className="container footer-bottom">
-        <span>LogicSpace 3.0.0</span>
+        <span>LogicSpace 3.1.0</span>
         <span>
           {tr(
             'Source release · Ubuntu/Linux · No tracking on this site',
@@ -307,10 +311,10 @@ function Screenshot({ src, alt, label }: { src: string; alt: string; label: stri
           <i />
         </span>
         <span>LogicSpace / {label}</span>
-        <span>3.0.0</span>
+        <span>3.1.0</span>
       </div>
       <img src={src} alt={alt} loading="lazy" />
-      <figcaption>{label} · LogicSpace 3.0.0</figcaption>
+      <figcaption>{label} · LogicSpace 3.1.0</figcaption>
     </figure>
   )
 }
@@ -325,7 +329,7 @@ function Home({ language }: { language: Language }) {
           <div className="hero-copy">
             <div className="release-pill">
               <span className="release-dot" />{' '}
-              {tr('VERSION 3.0.0 · SOURCE RELEASE', 'ВЕРСИЯ 3.0.0 · ИСХОДНЫЙ РЕЛИЗ')}{' '}
+              {tr('VERSION 3.1.0 · LINUX + WINDOWS', 'ВЕРСИЯ 3.1.0 · LINUX + WINDOWS')}{' '}
               <ChevronRight size={14} />
             </div>
             <h1>
@@ -559,8 +563,8 @@ function Home({ language }: { language: Language }) {
           <h2>{tr('Start with a real circuit.', 'Начните с настоящей схемы.')}</h2>
           <p>
             {tr(
-              'Download the verified 3.0.0 source release, launch it on Ubuntu and open the half-adder example.',
-              'Скачайте проверенный исходный релиз 3.0.0, запустите его на Ubuntu и откройте полусумматор.',
+              'Download the verified 3.1.0 source release, launch it on Ubuntu and open the half-adder example.',
+              'Скачайте проверенный исходный релиз 3.1.0, запустите его на Ubuntu и откройте полусумматор.',
             )}
           </p>
         </div>
@@ -628,7 +632,7 @@ function Features({ language }: { language: Language }) {
   return (
     <>
       <PageHeading
-        eyebrow={tr('Capabilities / 3.0.0', 'Возможности / 3.0.0')}
+        eyebrow={tr('Capabilities / 3.1.0', 'Возможности / 3.1.0')}
         title={tr(
           'A complete digital logic workspace.',
           'Рабочее пространство для цифровой логики.',
@@ -728,11 +732,11 @@ function Download({ language }: { language: Language }) {
   return (
     <>
       <PageHeading
-        eyebrow={tr('Release / 3.0.0', 'Релиз / 3.0.0')}
+        eyebrow={tr('Release / 3.1.0', 'Релиз / 3.1.0')}
         title={tr('Download LogicSpace.', 'Скачать LogicSpace.')}
         lead={tr(
-          'The official 3.0.0 release is a verified source ZIP for Ubuntu/Linux. There is no prebuilt .deb or AppImage in this release.',
-          'Официальный релиз 3.0.0 — проверенный исходный ZIP для Ubuntu/Linux. Готового .deb или AppImage в этом выпуске нет.',
+          'LogicSpace 3.1.0 provides a source ZIP for Ubuntu/Linux and installer and portable packages for Windows 10/11 x64.',
+          'LogicSpace 3.1.0 содержит исходный ZIP для Ubuntu/Linux и установщик и portable-пакет для Windows 10/11 x64.',
         )}
       />
       <div className="container download-layout">
@@ -746,13 +750,13 @@ function Download({ language }: { language: Language }) {
                 <span className="muted-kicker">
                   {tr('LATEST PUBLISHED RELEASE', 'ПОСЛЕДНИЙ ОПУБЛИКОВАННЫЙ РЕЛИЗ')}
                 </span>
-                <h2>LogicSpace 3.0.0</h2>
+                <h2>LogicSpace 3.1.0 · Ubuntu / Linux</h2>
               </div>
             </div>
             <p>
               {tr(
-                'Source archive · 710,124 bytes · published 7 November 2026',
-                'Исходный архив · 710 124 байт · опубликован 7 ноября 2026',
+                'Source ZIP · 827,091 bytes · Ubuntu 24.04+ · Python 3.12+',
+                'Исходный ZIP · 827 091 байт · Ubuntu 24.04+ · Python 3.12+',
               )}
             </p>
             <div className="download-actions">
@@ -773,6 +777,67 @@ function Download({ language }: { language: Language }) {
               </External>
             </div>
           </div>
+          <div className="download-panel">
+            <div className="download-head">
+              <div className="download-icon">
+                <ArrowDownToLine size={27} />
+              </div>
+              <div>
+                <span className="muted-kicker">WINDOWS 10/11 · X64</span>
+                <h2>LogicSpace 3.1.0 · Windows</h2>
+              </div>
+            </div>
+            <p>
+              {tr(
+                'Choose the per-user installer or extract the portable ZIP. Install the official Microsoft Visual C++ Redistributable x64 separately if needed.',
+                'Выберите установщик для текущего пользователя или распакуйте portable ZIP. При необходимости отдельно установите официальный Microsoft Visual C++ Redistributable x64.',
+              )}
+            </p>
+            <div className="download-actions">
+              <ButtonLink to={WINDOWS_SETUP} external>
+                {tr('Windows installer', 'Установщик Windows')} <ArrowDownToLine size={18} />
+              </ButtonLink>
+              <ButtonLink to={WINDOWS_PORTABLE} variant="secondary" external>
+                {tr('Portable ZIP', 'Portable ZIP')} <ArrowDownToLine size={18} />
+              </ButtonLink>
+            </div>
+            <div className="checksum">
+              <span>SHA-256</span>
+              <External href={CHECKSUM_FILE}>
+                {tr(
+                  'Verify both files with the official checksum list',
+                  'Проверьте оба файла по официальному списку контрольных сумм',
+                )}{' '}
+                <ExternalLink size={14} />
+              </External>
+            </div>
+          </div>
+          <div className="download-panel">
+            <div className="download-head">
+              <div className="download-icon">
+                <Layers size={27} />
+              </div>
+              <div>
+                <span className="muted-kicker">QT / PYSIDE6</span>
+                <h2>{tr('Library source', 'Исходники библиотек')}</h2>
+              </div>
+            </div>
+            <p>
+              {tr(
+                '78,417,257 bytes. Upstream source archives for the Qt/PySide6 libraries shipped in the Windows packages, with replacement instructions in the release documentation.',
+                '78 417 257 байт. Исходные архивы Qt/PySide6 для библиотек в Windows-пакетах и инструкции по их замене в документации релиза.',
+              )}
+            </p>
+            <div className="download-actions">
+              <ButtonLink to={QT_SOURCES} variant="secondary" external>
+                {tr('Download Qt sources', 'Скачать исходники Qt')} <ArrowDownToLine size={18} />
+              </ButtonLink>
+            </div>
+            <div className="checksum">
+              <span>SHA-256</span>
+              <code>{QT_SOURCES_SHA256}</code>
+            </div>
+          </div>
           <section className="download-steps">
             <SectionEyebrow index="01">
               {tr('Install in minutes', 'Установите за несколько минут')}
@@ -786,7 +851,7 @@ function Download({ language }: { language: Language }) {
             </p>
             <CodeBlock
               language={language}
-              code={'cd LogicSpace-3.0.0\n./install.sh\n./launch.sh'}
+              code={'cd LogicSpace-3.1.0\n./install.sh\n./launch.sh'}
             />
             <p className="small-note">
               {tr(
@@ -802,18 +867,25 @@ function Download({ language }: { language: Language }) {
         </div>
         <aside className="requirement-panel">
           <SectionEyebrow>{tr('Requirements', 'Требования')}</SectionEyebrow>
-          <h3>{tr('Built for Ubuntu.', 'Создано для Ubuntu.')}</h3>
+          <h3>{tr('Desktop requirements.', 'Системные требования.')}</h3>
           <div className="requirement-row">
             <strong>{tr('Platform', 'Платформа')}</strong>
-            <span>Ubuntu 24.04+ / Linux GUI</span>
+            <span>Ubuntu 24.04+ / Windows 10/11 x64</span>
           </div>
           <div className="requirement-row">
             <strong>Python</strong>
-            <span>3.12+</span>
+            <span>
+              {tr('3.12+ on Linux; bundled on Windows', '3.12+ в Linux; включён в Windows-пакет')}
+            </span>
           </div>
           <div className="requirement-row">
             <strong>PySide6</strong>
-            <span>Essentials &gt;=6.7,&lt;7</span>
+            <span>
+              {tr(
+                'Essentials 6.7–6.x on Linux; bundled on Windows',
+                'Essentials 6.7–6.x в Linux; включён в Windows-пакет',
+              )}
+            </span>
           </div>
           <div className="requirement-row">
             <strong>{tr('Qt graphics', 'Графика Qt')}</strong>
@@ -826,8 +898,8 @@ function Download({ language }: { language: Language }) {
           </div>
           <p>
             {tr(
-              'Icarus, Yosys, Verilator, GTKWave and Bubblewrap are optional external tools. Windows and macOS packages are not offered.',
-              'Icarus, Yosys, Verilator, GTKWave и Bubblewrap — необязательные внешние инструменты. Пакетов Windows и macOS нет.',
+              'Icarus, Yosys, Verilator, GTKWave and Bubblewrap are optional external tools on Linux. No macOS package is offered.',
+              'Icarus, Yosys, Verilator, GTKWave и Bubblewrap — необязательные внешние инструменты для Linux. Пакета для macOS нет.',
             )}
           </p>
           <External href={SOURCE_ARCHIVE} className="quiet-link">
@@ -855,10 +927,10 @@ function Installation({ language }: { language: Language }) {
       n: '02',
       title: tr('Get the official source', 'Скачайте официальные исходники'),
       text: tr(
-        'Download the v3.0.0 source ZIP from GitHub Releases and extract it to a directory you own.',
-        'Скачайте исходный ZIP версии v3.0.0 с GitHub Releases и распакуйте в свой каталог.',
+        'Download the v3.1.0 source ZIP from GitHub Releases and extract it to a directory you own.',
+        'Скачайте исходный ZIP версии v3.1.0 с GitHub Releases и распакуйте в свой каталог.',
       ),
-      code: 'cd LogicSpace-3.0.0',
+      code: 'cd LogicSpace-3.1.0',
     },
     {
       n: '03',
@@ -933,11 +1005,11 @@ function DocsIndex({ language }: { language: Language }) {
   return (
     <>
       <PageHeading
-        eyebrow={tr('Documentation / 3.0.0', 'Документация / 3.0.0')}
+        eyebrow={tr('Documentation / 3.1.0', 'Документация / 3.1.0')}
         title={tr('Learn LogicSpace.', 'Изучите LogicSpace.')}
         lead={tr(
-          'Start with a first circuit, then go deeper into buses, CPU, HDL and debugging. These guides follow the published 3.0.0 features.',
-          'Начните с первой схемы, затем изучите шины, CPU, HDL и отладку. Руководства соответствуют опубликованным возможностям 3.0.0.',
+          'Start with a first circuit, then go deeper into buses, CPU, HDL and debugging. These guides follow the published 3.1.0 features.',
+          'Начните с первой схемы, затем изучите шины, CPU, HDL и отладку. Руководства соответствуют опубликованным возможностям 3.1.0.',
         )}
       />
       <div className="container docs-index">
@@ -1016,7 +1088,7 @@ function DocsDetail({ language }: { language: Language }) {
         </nav>
       </aside>
       <article className="docs-article">
-        <SectionEyebrow>{tr('Documentation / 3.0.0', 'Документация / 3.0.0')}</SectionEyebrow>
+        <SectionEyebrow>{tr('Documentation / 3.1.0', 'Документация / 3.1.0')}</SectionEyebrow>
         <h1>{doc.title[language]}</h1>
         <p className="article-lead">{doc.intro[language]}</p>
         <div className="article-rule" />
@@ -1062,8 +1134,8 @@ function Releases({ language }: { language: Language }) {
         eyebrow={tr('Release history', 'История релизов')}
         title={tr('Versions, with provenance.', 'Версии с понятным происхождением.')}
         lead={tr(
-          'Only 3.0.0 is presented as a published source release here. Earlier numbers in the changelog describe development milestones, not additional downloadable releases.',
-          'Здесь только 3.0.0 обозначена опубликованным исходным релизом. Более ранние номера в changelog — этапы разработки, а не отдельные релизы для загрузки.',
+          'v3.1.0 adds Windows x64 packages to the Ubuntu/Linux source release. The earlier v3.0.0 source release remains available without changes.',
+          'v3.1.0 добавляет Windows-пакеты x64 к исходному выпуску для Ubuntu/Linux. Более ранний исходный релиз v3.0.0 остаётся доступным без изменений.',
         )}
       />
       <div className="container release-page">
@@ -1072,20 +1144,20 @@ function Releases({ language }: { language: Language }) {
             <span className="release-badge">
               {tr('LATEST · OFFICIAL', 'ПОСЛЕДНИЙ · ОФИЦИАЛЬНЫЙ')}
             </span>
-            <time dateTime="2026-11-07">7 {tr('November', 'ноября')} 2026</time>
+            <span>{tr('Linux + Windows x64', 'Linux + Windows x64')}</span>
           </div>
-          <h2>LogicSpace 3.0.0</h2>
+          <h2>LogicSpace 3.1.0</h2>
           <p>
             {tr(
-              'First source release: editable circuits, central logic simulator, CPU/Assembly, a checked HDL subset and integrated debugging.',
-              'Первый исходный релиз: редактируемые схемы, центральный симулятор, CPU/Assembly, проверенное подмножество HDL и встроенная отладка.',
+              'Linux source ZIP and Windows installer/portable packages with the same circuit simulator, CPU/Assembly, checked HDL subset and debugging tools.',
+              'Исходный ZIP для Linux и установщик/portable-пакет для Windows с тем же симулятором, CPU/Assembly, проверенным подмножеством HDL и инструментами отладки.',
             )}
           </p>
           <ul>
             <li>
               {tr(
-                'Source ZIP with a published SHA-256 checksum',
-                'Исходный ZIP с опубликованной SHA-256 суммой',
+                'Linux source ZIP and Windows x64 installer and portable ZIP with published SHA-256 checksums',
+                'Исходный ZIP для Linux, Windows-установщик и portable ZIP x64 с опубликованными SHA-256',
               )}
             </li>
             <li>
@@ -1096,8 +1168,8 @@ function Releases({ language }: { language: Language }) {
             </li>
             <li>
               {tr(
-                'No prebuilt Linux package or in-place updater',
-                'Без готового Linux-пакета и автоматической замены файлов',
+                'No prebuilt Linux package or automatic in-place updater',
+                'Нет готового Linux-пакета и автоматического обновления файлов',
               )}
             </li>
           </ul>
@@ -1118,12 +1190,15 @@ function Releases({ language }: { language: Language }) {
             <h3>{tr('Development history', 'История разработки')}</h3>
             <p>
               {tr(
-                'The repository changelog records work on versions 2.1–2.5 and 3.0. Those entries are historical milestones; the official download above remains v3.0.0.',
-                'Changelog репозитория описывает работы версий 2.1–2.5 и 3.0. Это этапы разработки; официальный файл загрузки выше — v3.0.0.',
+                'v3.0.0 remains an unchanged historical source release. The changelog also records earlier development milestones.',
+                'v3.0.0 остаётся неизменённым историческим исходным релизом. Changelog также описывает более ранние этапы разработки.',
               )}
             </p>
             <External href={CHANGELOG} className="inline-link">
               {tr('Read full changelog', 'Читать весь changelog')} <ArrowUpRight size={16} />
+            </External>
+            <External href={`${REPO}/releases/tag/v3.0.0`} className="inline-link">
+              {tr('View v3.0.0', 'Открыть v3.0.0')} <ArrowUpRight size={16} />
             </External>
           </div>
         </div>
@@ -1171,8 +1246,8 @@ function About({ language }: { language: Language }) {
             <h2>{tr('Honest by design.', 'Честно о границах.')}</h2>
             <p>
               {tr(
-                '3.0.0 is a source release. HDL support is a checked subset. FPGA export prepares files and constraints; it does not synthesize or program hardware. Logical simulation steps are not physical timing measurements.',
-                '3.0.0 — исходный релиз. Поддержка HDL ограничена проверенным подмножеством. FPGA-экспорт готовит файлы и ограничения, но не синтезирует и не программирует плату. Логические шаги не являются измерениями физического времени.',
+                '3.1.0 includes Linux source and Windows x64 packages. HDL support is a checked subset. FPGA export prepares files and constraints; it does not synthesize or program hardware. Simulation steps are not physical timing measurements.',
+                '3.1.0 содержит исходники для Linux и Windows-пакеты x64. Поддержка HDL ограничена проверенным подмножеством. FPGA-экспорт готовит файлы и ограничения, но не синтезирует и не программирует плату. Шаги симуляции не являются измерениями физического времени.',
               )}
             </p>
           </section>
@@ -1182,8 +1257,8 @@ function About({ language }: { language: Language }) {
           <h3>{tr('Licensing status', 'Статус лицензии')}</h3>
           <p>
             {tr(
-              'The published v3.0.0 archive contains no project license. Later proprietary source-available and commercial-license drafts are not part of that release and are not final agreements. LogicSpace is not presented as OSI Open Source. Third-party packages retain their own licenses.',
-              'Опубликованный архив v3.0.0 не содержит лицензии проекта. Более поздние черновики proprietary source-available и коммерческих условий не входят в релиз и не являются окончательными договорами. LogicSpace не называется OSI Open Source. Сторонние пакеты сохраняют свои лицензии.',
+              'v3.1.0 includes the author-accepted LogicSpace Proprietary Source-Available License text, still marked as a draft for legal review. It is not OSI Open Source. Third-party components retain their own licenses, and v3.0.0 is unchanged.',
+              'v3.1.0 содержит принятый автором текст LogicSpace Proprietary Source-Available License, всё ещё помеченный как проект для юридической проверки. Это не OSI Open Source. Для сторонних компонентов действуют их лицензии, а v3.0.0 не изменён.',
             )}
           </p>
           <p className="small-note">
@@ -1251,8 +1326,8 @@ function updateMeta(pathname: string, language: Language) {
   const description =
     doc?.intro[language] ??
     t(
-      'Build and simulate digital circuits on Ubuntu with LogicSpace 3.0.0. Explore the editor, CPU Assembly, HDL subset and debugging tools.',
-      'Собирайте и симулируйте цифровые схемы на Ubuntu с LogicSpace 3.0.0. Изучите редактор, CPU Assembly, HDL и отладку.',
+      'Build and simulate digital circuits on Ubuntu and Windows with LogicSpace 3.1.0. Explore the editor, CPU Assembly, HDL subset and debugging tools.',
+      'Собирайте и симулируйте цифровые схемы в Ubuntu и Windows с LogicSpace 3.1.0. Изучите редактор, CPU Assembly, HDL и отладку.',
     )[language]
   document.title = `${title} · LogicSpace`
   document.documentElement.lang = language

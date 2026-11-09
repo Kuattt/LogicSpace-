@@ -4,7 +4,9 @@ This is evidence for the candidate from Windows CI run
 [`42625402527`](https://github.com/Kuattt/LogicSpace-/actions/runs/42625402527)
 at commit `0d00daa4329978c7268456904316e10975bc3de0`.
 It is **not** a certification of redistribution rights or LGPL compliance.
-Recheck a final artifact if the build changes.
+The later 3.1.0 build removes the Microsoft runtime DLL copies described in
+this historical inventory; their presence below is **not** a description of
+the final package. Recheck a final artifact if the build changes.
 
 ## Compared files
 
@@ -31,6 +33,8 @@ OpenSSL and Microsoft runtime files. The `python312.dll` file contains the
 version string `3.12.10`. OpenSSL DLLs contain version strings `3.0.16` and
 `3.5.9`; their separate build origins are not yet verified. Microsoft DLL
 redistribution entitlement is not established by a file name or wheel match.
+The subsequent build removes matching Microsoft runtime DLLs and requires the
+official Visual C++ Redistributable x64 to be installed separately.
 
 ## Upstream source candidates, not yet proven corresponding source
 

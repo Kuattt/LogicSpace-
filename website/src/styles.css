@@ -978,6 +978,9 @@ img {
 .download-panel {
   padding: 34px;
 }
+.download-panel + .download-panel {
+  margin-top: 16px;
+}
 .download-head {
   display: flex;
   align-items: center;

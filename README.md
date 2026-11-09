@@ -2,7 +2,7 @@
 
 **Build digital circuits. See signals move. Understand the machine you built.**
 
-LogicSpace is a Python and PySide6 desktop sandbox for digital circuits. Its canvas is backed by a digital logic simulator: wires connect actual pins, clocks advance state, and debugging tools inspect simulated values. Projects are human-readable JSON. The published 3.0.0 release targets Ubuntu/Linux; a Windows 10/11 x64 installer and portable package are being prepared for 3.1.0.
+LogicSpace is a Python and PySide6 desktop sandbox for digital circuits. Its canvas is backed by a digital logic simulator: wires connect actual pins, clocks advance state, and debugging tools inspect simulated values. Projects are human-readable JSON. Version 3.1.0 provides an Ubuntu/Linux source ZIP and Windows 10/11 x64 installer and portable packages.
 
 ![LogicSpace circuit workspace](docs/screenshots/workspace.png)
 
@@ -41,16 +41,16 @@ The example opens as an editable copy. The bundled source file is not changed.
 Download the current source ZIP from [GitHub Releases](https://github.com/Kuattt/LogicSpace-/releases) or clone this repository. Unpack it into a directory you own, then run:
 
 ~~~bash
-cd LogicSpace-3.0.0  # use the extracted version directory, or your clone
+cd LogicSpace-3.1.0  # use the extracted version directory, or your clone
 ./install.sh
 ./launch.sh
 ~~~
 
 The installer places PySide6 Essentials in the project-local .deps directory when needed and creates a desktop entry under your user account. It does not require sudo. Python 3.12 or newer and a graphical Linux session are required. Minimal Linux installations may also need Ubuntu's `libegl1` package (`sudo apt install libegl1`). A prebuilt Debian or AppImage package is not provided.
 
-## Windows 10/11 x64 release candidate
+## Windows 10/11 x64
 
-The [native Windows CI workflow](https://github.com/Kuattt/LogicSpace-/actions/workflows/windows-build.yml) builds one installer (`LogicSpace-Setup.exe`) and one portable archive (`LogicSpace-Windows-x64.zip`). Both contain the same PyInstaller application, Python 3.12 runtime and PySide6/Qt files; neither needs a separate Python installation. The 3.1.0 candidate must pass that workflow before release. Until then, use the [Releases page](https://github.com/Kuattt/LogicSpace-/releases) for public downloads; CI artifacts are not published release downloads.
+The [native Windows CI workflow](https://github.com/Kuattt/LogicSpace-/actions/workflows/windows-build.yml) builds one installer (`LogicSpace-Setup.exe`) and one portable archive (`LogicSpace-Windows-x64.zip`). Both contain the same PyInstaller application, Python 3.12 runtime and PySide6/Qt files; neither needs a separate Python installation. Download published packages from the [Releases page](https://github.com/Kuattt/LogicSpace-/releases), not from temporary CI artifacts.
 
 The installer runs per user and provides a Start menu shortcut, an optional desktop shortcut and an uninstaller. For the portable version, extract the entire ZIP and run `LogicSpace/LogicSpace.exe`. User projects should be saved outside the application folder; settings, templates and the component library use `%LOCALAPPDATA%\LogicSpace`. The Windows CI checks silent install, launch, reinstall and uninstall, but an interactive Windows 10/11 review of the wizard and circuit workflows is still outstanding. The packages are unsigned, so Windows SmartScreen may display a warning. Do not disable Windows security features.
 
@@ -153,18 +153,18 @@ See [CHANGELOG](CHANGELOG.md), [release notes](RELEASE_NOTES.md), [Issues](https
 
 ## License and third-party software
 
-The published **v3.0.0** source archive contains no LogicSpace project license.
-The author has accepted the exact text of the proposed
+The author accepted the exact text of the
 [LogicSpace Proprietary Source-Available License](LICENSE.md) for original
-materials they own in a future 3.1.0 release. The document still explicitly
-identifies itself as a **draft for legal review**; rights to every included
-asset have not been established. It is not a term of the earlier release.
+materials they own in v3.1.0. The document still explicitly identifies
+itself as a **draft for legal review**; rights to every included asset have
+not been independently established. The earlier v3.0.0 source archive
+contains no LogicSpace project license and is unchanged.
 Its proposed terms allow personal use and private
 local non-commercial modifications, while requiring separate written
 permission for redistribution, derivative products and commercial use. It
 does not grant rights to the LogicSpace name or branding. One approved version
 of these terms is intended to cover original LogicSpace materials on Linux
-and Windows for a future release; it will not be applied retroactively to
+and Windows; it is not applied retroactively to
 v3.0.0. LogicSpace is not represented as OSI Open Source.
 
 The [commercial licensing notice](COMMERCIAL-LICENSE.md) is also a draft; it
@@ -173,5 +173,8 @@ libraries and runtimes retain their own terms. See the
 [third-party notices and open release checks](THIRD_PARTY_NOTICES.md) and the
 [rights-review checklist](docs/licensing-review-3.1.0.md). Public GitHub
 visibility also carries GitHub's own platform terms for viewing and forking.
-Windows binary publication awaits review of the bundled PySide6/Qt, Python,
-Microsoft and other third-party components.
+The Windows packages use a separately installed official Microsoft Visual C++
+Redistributable x64. The release includes upstream Qt/PySide6 source archives
+and [library replacement instructions](docs/qt-source-and-replacement-3.1.0.md).
+Independent legal review of the project license and third-party obligations
+is still recommended.
