@@ -13,6 +13,10 @@ export const SOURCE_ARCHIVE = `${REPO}/archive/refs/tags/v3.1.0.zip`
 export const GUIDE = `${REPO}/blob/v3.1.0/docs/detailed-guide.md`
 export const CHANGELOG = `${REPO}/blob/v3.1.0/CHANGELOG.md`
 export const SHA256 = '78a3ba53975f012a41e70e500f526d1e917ade9f24ea3271cd930f9ae52bf85f'
+export const WINDOWS_SETUP_SHA256 =
+  'e24936de03464680f8459fd3318f4f809ddf1b2779fd7e3fb3f682dc6bf19f63'
+export const WINDOWS_PORTABLE_SHA256 =
+  '527eb18711fc6643cc8de53f5516fa34f28e559e540ac12f70eb6bcbd8ddf22e'
 export const QT_SOURCES_SHA256 = '7d07f2354f09a423939d3e3055541497d205ecbc9baa5cb3d0b703d646f387ac'
 
 export interface Feature {

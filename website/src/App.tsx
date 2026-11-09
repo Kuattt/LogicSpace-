@@ -45,7 +45,9 @@ import {
   SOURCE_ARCHIVE,
   SOURCE_ZIP,
   WINDOWS_PORTABLE,
+  WINDOWS_PORTABLE_SHA256,
   WINDOWS_SETUP,
+  WINDOWS_SETUP_SHA256,
   t,
   type Feature,
   type Language,
@@ -793,6 +795,12 @@ function Download({ language }: { language: Language }) {
                 'Выберите установщик для текущего пользователя или распакуйте portable ZIP. При необходимости отдельно установите официальный Microsoft Visual C++ Redistributable x64.',
               )}
             </p>
+            <p>
+              {tr(
+                'Installer: 39,568,020 bytes · Portable: 39,390,020 bytes',
+                'Установщик: 39 568 020 байт · Portable: 39 390 020 байт',
+              )}
+            </p>
             <div className="download-actions">
               <ButtonLink to={WINDOWS_SETUP} external>
                 {tr('Windows installer', 'Установщик Windows')} <ArrowDownToLine size={18} />
@@ -802,7 +810,10 @@ function Download({ language }: { language: Language }) {
               </ButtonLink>
             </div>
             <div className="checksum">
-              <span>SHA-256</span>
+              <span>{tr('Installer SHA-256', 'SHA-256 установщика')}</span>
+              <code>{WINDOWS_SETUP_SHA256}</code>
+              <span>{tr('Portable SHA-256', 'SHA-256 portable-пакета')}</span>
+              <code>{WINDOWS_PORTABLE_SHA256}</code>
               <External href={CHECKSUM_FILE}>
                 {tr(
                   'Verify both files with the official checksum list',
