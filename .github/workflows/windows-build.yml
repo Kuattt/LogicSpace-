@@ -76,7 +76,8 @@ jobs:
           $process = Start-Process -FilePath $exe -WorkingDirectory (Split-Path $exe) -PassThru
           Start-Sleep -Seconds 8
           if ($process.HasExited) { throw "Portable app exited during startup: $($process.ExitCode)" }
-          Stop-Process -Id $process.Id -Force
+          taskkill.exe /PID $($process.Id) /T /F | Out-Null
+          if (!$process.WaitForExit(10000)) { throw 'Portable process tree did not stop' }
           # A copied ABI-compatible Qt DLL with an altered version resource must load.
           $qtCore = Join-Path $portable 'LogicSpace/_internal/PySide6/Qt6Core.dll'
           Copy-Item -LiteralPath $qtCore -Destination "$qtCore.original"
@@ -84,7 +85,8 @@ jobs:
           $modifiedApp = Start-Process -FilePath $exe -WorkingDirectory (Split-Path $exe) -PassThru
           Start-Sleep -Seconds 8
           if ($modifiedApp.HasExited) { throw "Modified compatible Qt DLL failed to load: $($modifiedApp.ExitCode)" }
-          Stop-Process -Id $modifiedApp.Id -Force
+          taskkill.exe /PID $($modifiedApp.Id) /T /F | Out-Null
+          if (!$modifiedApp.WaitForExit(10000)) { throw 'Modified-library process tree did not stop' }
           Copy-Item -LiteralPath "$qtCore.original" -Destination $qtCore -Force
           Remove-Item -LiteralPath "$qtCore.original"
           $install = Join-Path $env:RUNNER_TEMP 'LogicSpace test installation'
@@ -100,7 +102,8 @@ jobs:
           $installedApp = Start-Process -FilePath (Join-Path $install 'LogicSpace.exe') -WorkingDirectory $install -PassThru
           Start-Sleep -Seconds 8
           if ($installedApp.HasExited) { throw "Installed app exited during startup: $($installedApp.ExitCode)" }
-          Stop-Process -Id $installedApp.Id -Force
+          taskkill.exe /PID $($installedApp.Id) /T /F | Out-Null
+          if (!$installedApp.WaitForExit(10000)) { throw 'Installed process tree did not stop' }
           $reinstalled = Start-Process -FilePath $setup -ArgumentList @('/S', "/D=$install") -Wait -PassThru
           if ($reinstalled.ExitCode -ne 0) { throw "Reinstall failed: $($reinstalled.ExitCode)" }
           if (!(Test-Path (Join-Path $userData 'preserve-me.txt'))) { throw 'Reinstall deleted user data' }
