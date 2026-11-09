@@ -47,7 +47,8 @@ class ReleasePackageTests(unittest.TestCase):
                              "licenses/LGPL-3.0.txt", "licenses/GPL-3.0.txt",
                              "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt",
                              "licenses/Qt-6.9.3-attributions.txt",
-                             "licenses/Mesa-llvmpipe-attribution.txt"):
+                             "licenses/Mesa-llvmpipe-attribution.txt",
+                             "docs/qt-source-and-replacement-3.1.0.md"):
                     self.assertEqual(archive.read(PREFIX + name), name.encode("utf-8"))
                 self.assertEqual(archive.read(PREFIX + "engine.py"), b"engine.py")
                 self.assertEqual((archive.getinfo(PREFIX + "launch.sh").external_attr >> 16) & 0o777,

@@ -27,7 +27,26 @@ RELEASE_DOCUMENTS = (
     "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt",
     "licenses/Qt-6.9.3-attributions.txt",
     "licenses/Mesa-llvmpipe-attribution.txt",
+    "docs/qt-source-and-replacement-3.1.0.md",
 )
+MICROSOFT_RUNTIME_NAMES = {"ucrtbase.dll", "concrt140.dll", "vccorlib140.dll"}
+MICROSOFT_RUNTIME_PREFIXES = ("api-ms-win-", "msvcp140", "vcruntime140", "vcamp140", "vcomp140")
+
+
+def is_microsoft_runtime(path):
+    name = Path(path).name.lower()
+    return name in MICROSOFT_RUNTIME_NAMES or any(name.startswith(prefix) and name.endswith(".dll")
+                                                   for prefix in MICROSOFT_RUNTIME_PREFIXES)
+
+
+def remove_microsoft_runtimes(stage):
+    """Require the official system VC++ runtime instead of repackaging DLL copies."""
+    removed = []
+    for path in Path(stage).rglob("*"):
+        if path.is_file() and is_microsoft_runtime(path):
+            path.unlink()
+            removed.append(path.relative_to(stage).as_posix())
+    return removed
 
 
 def require_windows_x64():
@@ -85,6 +104,9 @@ def verify_stage(stage):
         raise ValueError("Qt Windows platform plugin qwindows.dll is missing")
     if any(path.suffix == ".py" for path in stage.rglob("*")):
         raise ValueError("Raw Python source was unexpectedly included")
+    bundled_runtime = [path for path in stage.rglob("*") if path.is_file() and is_microsoft_runtime(path)]
+    if bundled_runtime:
+        raise ValueError(f"Microsoft runtime DLLs must not be bundled: {bundled_runtime[0]}")
     for name in RELEASE_DOCUMENTS:
         bundled = stage / name
         source = ROOT / name
@@ -109,6 +131,12 @@ def write_readme(path):
         "\nPortable: extract the full ZIP to a writable directory and run LogicSpace\\LogicSpace.exe.\n"
         "Installer: run LogicSpace-Setup.exe and follow the wizard. It installs for the current user.\n"
         "No separate Python or PySide6 installation is required.\n"
+        "Microsoft Visual C++ Redistributable x64 (2015-2022 or compatible newer)\n"
+        "must be installed separately from Microsoft before launch.\n"
+        "https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist\n"
+        "\nQt/PySide6 source archives are supplied as Qt-sources-6.9.3.zip on the\n"
+        "same LogicSpace 3.1.0 GitHub Release. See the bundled\n"
+        "docs\\qt-source-and-replacement-3.1.0.md for library replacement steps.\n"
         "\nProjects: choose a location in Documents or another folder you control.\n"
         "Settings, templates, library and benchmark history: %LOCALAPPDATA%\\LogicSpace\\\n"
         "Uninstalling the application does not remove these user files.\n"
@@ -209,6 +237,8 @@ def build():
     subprocess.run([sys.executable, "-m", "PyInstaller", "--noconfirm", "--clean",
                     "--workpath", str(BUILD / "work"), "--distpath", str(BUILD / "dist"),
                     str(ROOT / "windows" / "LogicSpace.spec")], cwd=ROOT, check=True)
+    removed = remove_microsoft_runtimes(STAGE)
+    print(f"Removed {len(removed)} bundled Microsoft runtime DLLs; system VC++ runtime required")
     stage_release_documents(STAGE)
     package()
 

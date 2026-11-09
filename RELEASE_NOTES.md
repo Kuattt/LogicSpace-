@@ -14,6 +14,8 @@
 
 **Windows:** after publication, download `LogicSpace-Setup.exe` from the 3.1.0 GitHub Release and follow the installer, or download `LogicSpace-Windows-x64.zip`, extract the whole archive and run `LogicSpace/LogicSpace.exe`. No separate Python installation is required. Packages are unsigned; keep Windows security protections enabled.
 
+Install the [Microsoft Visual C++ Redistributable x64](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist) separately if it is not already present. The Windows packages do not contain Microsoft runtime DLLs. The same release includes `Qt-sources-6.9.3.zip` and [Qt/PySide6 replacement instructions](docs/qt-source-and-replacement-3.1.0.md).
+
 **Ubuntu 24.04+:** download the source ZIP from the same release, extract it to a directory you own, then run `./install.sh` and `./launch.sh`. Python 3.12+ and a graphical session are required. Minimal installations may need the `libegl1` system package.
 
 Verify downloads with the release's `SHA256SUMS.txt`. The [website](https://logicspace.pages.dev/) and [detailed guide](https://github.com/Kuattt/LogicSpace-/blob/main/docs/detailed-guide.md) provide further instructions.

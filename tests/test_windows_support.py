@@ -9,10 +9,23 @@ from unittest.mock import patch
 from app_paths import user_data_dir
 import hdl_tools
 import toolchain_model
-from windows.build import make_icon, machine_type, stage_release_documents, verify_stage
+from windows.build import make_icon, machine_type, remove_microsoft_runtimes, stage_release_documents, verify_stage
 
 
 class WindowsCompatibilityTests(unittest.TestCase):
+    def test_microsoft_runtime_is_not_redistributed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            stage = Path(folder)
+            for name in ("_internal/VCRUNTIME140.dll", "_internal/ucrtbase.dll",
+                         "_internal/api-ms-win-core-console-l1-1-0.dll",
+                         "_internal/PySide6/MSVCP140_1.dll", "_internal/PySide6/Qt6Core.dll"):
+                path = stage / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(b"test")
+            removed = remove_microsoft_runtimes(stage)
+            self.assertEqual(len(removed), 4)
+            self.assertTrue((stage / "_internal/PySide6/Qt6Core.dll").exists())
+
     def test_installer_preserves_user_files_and_uses_per_user_registry(self):
         template = (Path(__file__).resolve().parents[1] / "windows" / "LogicSpace.nsi.in").read_text(encoding="utf-8")
         self.assertIn("RequestExecutionLevel user", template)

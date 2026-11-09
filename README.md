@@ -54,6 +54,8 @@ The [native Windows CI workflow](https://github.com/Kuattt/LogicSpace-/actions/w
 
 The installer runs per user and provides a Start menu shortcut, an optional desktop shortcut and an uninstaller. For the portable version, extract the entire ZIP and run `LogicSpace/LogicSpace.exe`. User projects should be saved outside the application folder; settings, templates and the component library use `%LOCALAPPDATA%\LogicSpace`. The Windows CI checks silent install, launch, reinstall and uninstall, but an interactive Windows 10/11 review of the wizard and circuit workflows is still outstanding. The packages are unsigned, so Windows SmartScreen may display a warning. Do not disable Windows security features.
 
+Windows also needs the [official Microsoft Visual C++ Redistributable x64](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist) installed separately. Its DLLs are not copied into the LogicSpace package. The same 3.1.0 release will include a `Qt-sources-6.9.3.zip` asset for the bundled Qt/PySide6 libraries; [library replacement instructions](docs/qt-source-and-replacement-3.1.0.md) are included with the packages.
+
 External Icarus, Yosys and Verilator execution is unavailable on Windows because the current restricted subprocess runner uses Linux Bubblewrap. Internal HDL editing, import/export and LogicSpace simulation remain available. GTKWave requires a separate compatible installation.
 
 ### Dependencies

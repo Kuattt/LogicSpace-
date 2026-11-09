@@ -11,6 +11,10 @@ Build on Windows 10/11 x64 with 64-bit Python 3.12 and NSIS 3 installed.
 The build writes dist\windows\LogicSpace-Windows-x64.zip,
 LogicSpace-Setup.exe, SHA256SUMS.txt and README-Windows.txt. Both packages use
 the same PyInstaller onedir stage under build\windows\dist\LogicSpace.
+The build removes copies of Microsoft Visual C++ and UCRT runtime DLLs.
+Users need the official Microsoft Visual C++ Redistributable x64 installed
+separately before launch. The source archives for bundled Qt/PySide6 libraries
+are packaged separately with windows\package_qt_sources.py for the same release.
 
 The installer is per-user and uses HKCU; no administrator rights are requested.
 Its uninstaller removes only the files in the build manifest. Projects and

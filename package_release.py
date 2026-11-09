@@ -16,7 +16,8 @@ PREFIX = f"LogicSpace-{APP_VERSION}/"
 DIRECTORIES = {".github", "docs", "examples", "licenses", "resources", "tests"}
 WINDOWS_FILES = {"windows/LogicSpace.nsi.in", "windows/LogicSpace.spec",
                  "windows/README-BUILD.txt", "windows/build.py",
-                 "windows/requirements-build.txt"}
+                 "windows/requirements-build.txt", "windows/package_qt_sources.py",
+                 "windows/modify_qt_version_resource.py"}
 ROOT_NAMES = {".gitignore", ".gitattributes", "README.md", "CHANGELOG.md", "RELEASE_NOTES.md",
               "CONTRIBUTING.md", "SECURITY.md", "LICENSE.md",
               "COMMERCIAL-LICENSE.md", "THIRD_PARTY_NOTICES.md",
@@ -29,7 +30,8 @@ REQUIRED = {"README.md", "RELEASE_NOTES.md", "requirements.txt", "install.sh",
             "licenses/LGPL-3.0.txt", "licenses/GPL-3.0.txt",
             "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt",
             "licenses/Qt-6.9.3-attributions.txt",
-            "licenses/Mesa-llvmpipe-attribution.txt"} | WINDOWS_FILES
+            "licenses/Mesa-llvmpipe-attribution.txt",
+            "docs/qt-source-and-replacement-3.1.0.md"} | WINDOWS_FILES
 
 
 def release_files(root=ROOT):
