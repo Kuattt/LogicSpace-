@@ -45,7 +45,8 @@ class ReleasePackageTests(unittest.TestCase):
                 self.assertIn(PREFIX + "windows/build.py", archive.namelist())
                 for name in ("LICENSE.md", "COMMERCIAL-LICENSE.md", "THIRD_PARTY_NOTICES.md",
                              "licenses/LGPL-3.0.txt", "licenses/GPL-3.0.txt",
-                             "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt"):
+                             "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt",
+                             "licenses/Qt-6.9.3-attributions.txt"):
                     self.assertEqual(archive.read(PREFIX + name), name.encode("utf-8"))
                 self.assertEqual(archive.read(PREFIX + "engine.py"), b"engine.py")
                 self.assertEqual((archive.getinfo(PREFIX + "launch.sh").external_attr >> 16) & 0o777,
