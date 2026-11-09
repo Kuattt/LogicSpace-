@@ -28,7 +28,8 @@ REQUIRED = {"README.md", "RELEASE_NOTES.md", "requirements.txt", "install.sh",
             "LICENSE.md", "COMMERCIAL-LICENSE.md", "THIRD_PARTY_NOTICES.md",
             "licenses/LGPL-3.0.txt", "licenses/GPL-3.0.txt",
             "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt",
-            "licenses/Qt-6.9.3-attributions.txt"} | WINDOWS_FILES
+            "licenses/Qt-6.9.3-attributions.txt",
+            "licenses/Mesa-llvmpipe-attribution.txt"} | WINDOWS_FILES
 
 
 def release_files(root=ROOT):

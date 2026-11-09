@@ -26,6 +26,7 @@ RELEASE_DOCUMENTS = (
     "licenses/LGPL-3.0.txt", "licenses/GPL-3.0.txt",
     "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt",
     "licenses/Qt-6.9.3-attributions.txt",
+    "licenses/Mesa-llvmpipe-attribution.txt",
 )
 
 
