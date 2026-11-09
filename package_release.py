@@ -17,7 +17,7 @@ DIRECTORIES = {".github", "docs", "examples", "licenses", "resources", "tests"}
 WINDOWS_FILES = {"windows/LogicSpace.nsi.in", "windows/LogicSpace.spec",
                  "windows/README-BUILD.txt", "windows/build.py",
                  "windows/requirements-build.txt"}
-ROOT_NAMES = {".gitignore", "README.md", "CHANGELOG.md", "RELEASE_NOTES.md",
+ROOT_NAMES = {".gitignore", ".gitattributes", "README.md", "CHANGELOG.md", "RELEASE_NOTES.md",
               "CONTRIBUTING.md", "SECURITY.md", "LICENSE.md",
               "COMMERCIAL-LICENSE.md", "THIRD_PARTY_NOTICES.md",
               "requirements.txt", "install.sh", "launch.sh"}

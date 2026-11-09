@@ -1,5 +1,6 @@
 """Source ZIP allowlist, checksums and required launch files."""
 import json
+import hashlib
 from pathlib import Path
 import shutil
 import subprocess
@@ -13,6 +14,16 @@ from version import APP_VERSION
 
 @unittest.skipUnless(shutil.which("git"), "Git CLI required to construct source-release fixtures")
 class ReleasePackageTests(unittest.TestCase):
+    def test_existing_license_draft_is_byte_for_byte_unchanged(self):
+        root = Path(__file__).resolve().parents[1]
+        expected = {
+            "LICENSE.md": "b5c8c544c95411faa126a3225a7249dc6640b28d9bce820312786077248aedcc",
+            "COMMERCIAL-LICENSE.md": "fd1a6d927e39dfde061fd1f5859c614e08614fd28ab4290bd441396fdc4d4ef8",
+        }
+        for name, digest in expected.items():
+            with self.subTest(name=name):
+                self.assertEqual(hashlib.sha256((root / name).read_bytes()).hexdigest(), digest)
+
     def make_repo(self, root):
         subprocess.run(["git", "init", "-q", root], check=True)
         for name in REQUIRED:
