@@ -152,9 +152,12 @@ See [CHANGELOG](CHANGELOG.md), [release notes](RELEASE_NOTES.md), [Issues](https
 ## License and third-party software
 
 The published **v3.0.0** source archive contains no LogicSpace project license.
-The proposed [LogicSpace Proprietary Source-Available License](LICENSE.md) is
-currently a **draft for rights-holder and legal review**, not an approved term
-of that earlier release. Its proposed terms allow personal use and private
+The author has accepted the exact text of the proposed
+[LogicSpace Proprietary Source-Available License](LICENSE.md) for original
+materials they own in a future 3.1.0 release. The document still explicitly
+identifies itself as a **draft for legal review**; rights to every included
+asset have not been established. It is not a term of the earlier release.
+Its proposed terms allow personal use and private
 local non-commercial modifications, while requiring separate written
 permission for redistribution, derivative products and commercial use. It
 does not grant rights to the LogicSpace name or branding. One approved version

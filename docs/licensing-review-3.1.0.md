@@ -5,6 +5,10 @@ Do not apply a new license retroactively to v3.0.0. The existing
 [`LICENSE.md`](../LICENSE.md) and [`COMMERCIAL-LICENSE.md`](../COMMERCIAL-LICENSE.md)
 remain drafts until the responsible rights holder approves them after review.
 
+The author has accepted the exact current `LICENSE.md` text for original
+materials they own in a future 3.1.0 release. This does not establish rights
+to every included asset, remove the draft wording or replace legal review.
+
 ## Materials whose origin and rights must be established
 
 | Material | Evidence to collect | Open question |
