@@ -85,7 +85,8 @@ jobs:
           Start-Sleep -Seconds 8
           if ($modifiedApp.HasExited) { throw "Modified compatible Qt DLL failed to load: $($modifiedApp.ExitCode)" }
           Stop-Process -Id $modifiedApp.Id -Force
-          Move-Item -LiteralPath "$qtCore.original" -Destination $qtCore -Force
+          Copy-Item -LiteralPath "$qtCore.original" -Destination $qtCore -Force
+          Remove-Item -LiteralPath "$qtCore.original"
           $install = Join-Path $env:RUNNER_TEMP 'LogicSpace test installation'
           $userData = Join-Path $env:LOCALAPPDATA 'LogicSpace'
           New-Item -ItemType Directory -Force -Path $userData | Out-Null
