@@ -1,0 +1,4 @@
+LICENSE.md text eol=lf
+COMMERCIAL-LICENSE.md text eol=lf
+THIRD_PARTY_NOTICES.md text eol=lf
+licenses/*.txt text eol=lf

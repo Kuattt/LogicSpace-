@@ -1,5 +1,6 @@
 """Optional external tools must report real availability and bounded results."""
 from pathlib import Path
+import os
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -9,6 +10,7 @@ from toolchain_model import detect_tool, run_restricted
 
 
 class ExternalToolTests(unittest.TestCase):
+    @unittest.skipUnless(os.name == "posix", "POSIX process-group cancellation")
     def test_cancel_and_timeout_kill_external_process_group(self):
         class FakeProcess:
             pid = 123456
@@ -32,7 +34,8 @@ class ExternalToolTests(unittest.TestCase):
             self.assertFalse(status["installed"])
             self.assertFalse(status["available"])
             with tempfile.TemporaryDirectory() as folder:
-                with self.assertRaisesRegex(ValueError, "Bubblewrap is required"):
+                reason = "Bubblewrap is required" if os.name == "posix" else "unavailable on Windows"
+                with self.assertRaisesRegex(ValueError, reason):
                     run_restricted(["/usr/bin/true"], folder)
 
     def test_first_mismatch_reports_signal_and_step(self):

@@ -1,0 +1,74 @@
+Unicode True
+!include "MUI2.nsh"
+!include "x64.nsh"
+
+Name "LogicSpace @VERSION@"
+OutFile "@OUTPUT@"
+InstallDir "$LOCALAPPDATA\Programs\LogicSpace"
+InstallDirRegKey HKCU "Software\LogicSpace\Installer" "InstallDir"
+RequestExecutionLevel user
+SetCompressor /SOLID zlib
+!define MUI_ICON "@ICON@"
+!define MUI_UNICON "@ICON@"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\LogicSpace.exe"
+
+VIProductVersion "@VERSION4@"
+VIAddVersionKey "ProductName" "LogicSpace"
+VIAddVersionKey "FileDescription" "LogicSpace installer"
+VIAddVersionKey "FileVersion" "@VERSION@"
+
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_COMPONENTS
+!insertmacro MUI_PAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
+!insertmacro MUI_UNPAGE_WELCOME
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+!insertmacro MUI_UNPAGE_FINISH
+!insertmacro MUI_LANGUAGE "English"
+
+Function .onInit
+  ${IfNot} ${RunningX64}
+    MessageBox MB_ICONSTOP "LogicSpace requires Windows 10/11 x64."
+    Abort
+  ${EndIf}
+FunctionEnd
+
+Section "LogicSpace (required)" SEC_MAIN
+  SectionIn RO
+@INSTALL_FILES@
+  WriteUninstaller "$INSTDIR\Uninstall.exe"
+  CreateDirectory "$SMPROGRAMS\LogicSpace"
+  CreateShortCut "$SMPROGRAMS\LogicSpace\LogicSpace.lnk" "$INSTDIR\LogicSpace.exe"
+  CreateShortCut "$SMPROGRAMS\LogicSpace\Uninstall LogicSpace.lnk" "$INSTDIR\Uninstall.exe"
+  WriteRegStr HKCU "Software\LogicSpace\Installer" "InstallDir" "$INSTDIR"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "DisplayName" "LogicSpace @VERSION@"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "DisplayVersion" "@VERSION@"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "UninstallString" "$\"$INSTDIR\Uninstall.exe$\""
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "DisplayIcon" "$INSTDIR\LogicSpace.exe"
+  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "NoModify" 1
+  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace" "NoRepair" 1
+SectionEnd
+
+Section /o "Desktop shortcut" SEC_DESKTOP
+  CreateShortCut "$DESKTOP\LogicSpace.lnk" "$INSTDIR\LogicSpace.exe"
+  WriteRegDWORD HKCU "Software\LogicSpace\Installer" "DesktopShortcut" 1
+SectionEnd
+
+Section "Uninstall"
+  SetOutPath "$TEMP"
+  StrCpy $0 0
+  ReadRegDWORD $0 HKCU "Software\LogicSpace\Installer" "DesktopShortcut"
+  StrCmp $0 1 0 +2
+  Delete "$DESKTOP\LogicSpace.lnk"
+  Delete "$SMPROGRAMS\LogicSpace\LogicSpace.lnk"
+  Delete "$SMPROGRAMS\LogicSpace\Uninstall LogicSpace.lnk"
+  RMDir "$SMPROGRAMS\LogicSpace"
+  DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\LogicSpace"
+  DeleteRegKey HKCU "Software\LogicSpace\Installer"
+@UNINSTALL_FILES@
+  Delete "$INSTDIR\Uninstall.exe"
+@REMOVE_DIRS@
+  RMDir "$INSTDIR"
+SectionEnd

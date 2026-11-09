@@ -13,9 +13,10 @@ import zipfile
 
 from engine import Circuit, Simulator
 from cpu_board import create_cpu_circuit
+from app_paths import user_data_dir
 
 
-APP_DATA = Path.home() / ".local/share/logicspace"
+APP_DATA = user_data_dir()
 CATEGORIES = ("Logic Gates", "Combinational Circuits", "Sequential Circuits",
               "ALU", "RAM / ROM", "Register File", "8-bit CPU",
               "CPU with Assembly", "Custom CPU")

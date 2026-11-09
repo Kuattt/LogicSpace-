@@ -33,8 +33,8 @@ jobs:
           bash -n launch.sh install.sh
           python -m unittest discover -s tests -q
       - name: Build source archive
-        run: python package_release.py --output dist/LogicSpace-3.0.0-source.zip
+        run: python package_release.py
       - uses: actions/upload-artifact@v7
         with:
           name: logicspace-source
-          path: dist/LogicSpace-3.0.0-source.zip
+          path: dist/LogicSpace-*-source.zip

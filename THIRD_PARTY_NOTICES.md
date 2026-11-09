@@ -1,0 +1,64 @@
+# LogicSpace 3.1.0 — third-party notices and release inventory (draft)
+
+**Release review document, not a certificate of license compliance.** It describes
+the proposed Linux source ZIP and the Windows x64 installer/portable ZIP. The
+Windows binaries inspected were CI candidates, not published 3.1.0 assets.
+The final binary inventory and its SHA-256 hashes must be checked again after
+the licensing files are included and the Windows packages are rebuilt.
+
+The [LogicSpace license](LICENSE.md) concerns only original LogicSpace
+materials to the extent the rights holder can license them. It does not
+relicense the components below. That document is currently a **draft**.
+
+## Components and applicable materials
+
+| Component | Distribution in the proposed packages | License information and official source | Release action |
+| --- | --- | --- | --- |
+| Python 3.12.10 runtime | Windows CI uses Python 3.12.10; the package contains `python312.dll`, `python3.dll`, extension modules and standard library files. The `python312.dll` version string also identifies 3.12.10. Linux source ZIP does not bundle Python. | Python Software Foundation License Version 2 and incorporated-software notices: [Python 3.12 license](https://docs.python.org/3.12/license.html); a copy of the upstream 3.12-branch `LICENSE` is in [`licenses/Python-3.12.txt`](licenses/Python-3.12.txt). | Keep the license and incorporated-software notices with the package; check the final CI runtime version. |
+| PySide6-Essentials 6.9.3 and shiboken6 6.9.3 | Bundled in Windows; on Linux, `install.sh` installs `PySide6-Essentials>=6.7,<7` when needed, so the installed version can differ. The inspected Windows CI portable package contains 36 DLL/PYD files byte-identical to the PySide6-Essentials 6.9.3 Windows wheel and 5 byte-identical to the shiboken6 6.9.3 Windows wheel; see [binary provenance](docs/windows-binary-provenance-3.1.0.md). | Wheel metadata states `LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only`; [Qt for Python licensing](https://doc.qt.io/qtforpython-6/), [package contents](https://doc.qt.io/qtforpython-6/package_details.html), [third-party licenses](https://doc.qt.io/qtforpython-6/licenses.html). Full LGPLv3 and GPLv3 texts are in [`licenses/`](licenses/). | Complete the applicable LGPLv3 source/access and modified-library replacement review. |
+| Qt 6.9.3 | The Windows package includes `Qt6Core.dll`, `Qt6Gui.dll`, `Qt6Widgets.dll`, `Qt6Network.dll`, `Qt6Svg.dll` and Qt plugins. Linux source ZIP has no Qt binaries. | [Qt 6.9 licensing](https://doc.qt.io/archives/qt-6.9/licensing.html), [Qt 6.9.3 third-party code](https://doc.qt.io/archives/qt-6.9/licenses-used-in-qt.html), [Qt LGPL obligations](https://www.qt.io/development/open-source-lgpl-obligations). The package includes an [overinclusive appendix of 51 official Qt 6.9.3 attribution texts](licenses/Qt-6.9.3-attributions.txt). A separate same-release source asset is described in [replacement instructions](docs/qt-source-and-replacement-3.1.0.md). | Match the **shipped** modules/plugins to Qt's exact build SBOM; the appendix alone does not establish what was compiled into the wheel. |
+| OpenSSL 3 | Four `libcrypto-3*.dll` / `libssl-3*.dll` files occur in the Windows CI candidate; no OpenSSL binary is bundled in the Linux source ZIP. Exact patch versions and file origins are unverified. | OpenSSL 3 uses Apache License 2.0: [OpenSSL license](https://openssl-library.org/source/license/index.html); text in [`licenses/Apache-2.0.txt`](licenses/Apache-2.0.txt). | Identify the exact DLL builds and collect any applicable upstream notices and source provenance. |
+| Microsoft Visual C++ Runtime and Windows API-set/UCRT DLLs | The build now removes matching runtime DLLs from the Windows stage. The user must install the official Visual C++ Redistributable x64 separately; Windows 10/11 supplies the UCRT. The final CI artifact must be checked to confirm no matching DLL remains. | [Microsoft deployment guidance](https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files), [official Redistributable download](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist), [Qt deployment guidance](https://doc.qt.io/qt-6/windows-deployment.html). | Do not reintroduce copies from a wheel or build machine without confirming redistribution rights. |
+| Software OpenGL runtime | `PySide6/opengl32sw.dll` is bundled in the Windows candidate and is byte-identical to the file in the PySide6-Essentials 6.9.3 Windows wheel. Its binary contains `Mesa 11.2.2` and `llvmpipe` strings. This identifies its likely implementation, but not a complete build provenance. | [Qt 6.9 identifies the prebuilt Windows software OpenGL DLL as Mesa llvmpipe](https://doc.qt.io/archives/qt-6.9/qt-attribution-llvmpipe.html) and lists MIT and Boost Software License 1.0 notices; the [attribution text](licenses/Mesa-llvmpipe-attribution.txt) is included in the package. | Verify the exact Mesa/LLVM source and build provenance and all applicable notices before publication. |
+| PyInstaller 6.22.3 bootloader | Used to build `LogicSpace.exe` in the Windows package; the build tool itself is not shipped. | [PyInstaller license and bootloader exception](https://pyinstaller.org/en/stable/license.html). The published exception permits applications built with PyInstaller under their own terms, subject to dependency licenses. | Confirm the final build uses the pinned version and no modified PyInstaller bootloader. |
+| NSIS installer stub | `LogicSpace-Setup.exe` is built using NSIS with its zlib compressor; the full NSIS build tool is not shipped. | [Official NSIS license](https://nsis.sourceforge.io/Docs/AppendixI.html): the installer code and zlib module use the zlib/libpng license. Its [notice and license text](licenses/NSIS-zlib-license.txt) are included. | Verify the CI-installed NSIS version and that the generated installer contains no other compression module. |
+| External HDL tools | Icarus Verilog, Yosys, Verilator, GTKWave and Bubblewrap are optional system tools; they are not included in the Windows or Linux source packages. | Their own licenses remain applicable to separately installed copies. | Re-audit if any tool is later bundled. |
+
+The Windows candidate contains additional Qt image/platform/TLS plugins and
+Python extension modules. Qt and Python have further incorporated material;
+the links above identify the upstream inventories, **not** a completed
+file-by-file mapping of the final package. The package must not be described
+as fully cleared until that mapping and required notices are complete.
+
+## LogicSpace assets needing rights confirmation
+
+- Application icons: `resources/logicspace.svg` and `resources/logicspace.png`.
+- Screenshots: `docs/screenshots/workspace.png` and `docs/screenshots/hdl-editor.png`.
+- Example circuits, Assembly, machine-code images and HDL under `examples/`.
+- Original application code, documentation and any adapted or contributed snippets.
+
+The project history alone does not establish exclusive rights to every asset.
+See [the rights-review checklist](docs/licensing-review-3.1.0.md) before
+approving the LogicSpace license for the new release.
+
+## LGPLv3 review before Windows publication
+
+The proposed proprietary LogicSpace terms must not restrict rights in the
+separately licensed Qt/PySide6 libraries. The Windows build uses separate
+DLLs/PYD files. Windows CI launched the app with a compatible Qt6Core.dll
+whose version resource was changed in a copied portable extraction; this
+tests the replacement path but does not prove arbitrary modified builds will
+work. The
+source archive and replacement instructions are described in
+[`docs/qt-source-and-replacement-3.1.0.md`](docs/qt-source-and-replacement-3.1.0.md).
+The final
+distribution also needs the appropriate notices, license texts, complete
+corresponding library source or compliant offer, and any installation
+information required by the applicable LGPLv3 terms. This document does
+not claim these obligations are already satisfied.
+
+The `licenses/` copies are provided for review and distribution preparation;
+they are **not** the LogicSpace project license. The GNU and Apache texts were
+copied from Ubuntu's standard `common-licenses` files; the Python text was
+retrieved from the official CPython 3.12 branch. Exact final binary provenance
+remains a release gate.

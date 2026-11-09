@@ -1,20 +1,34 @@
 """Source ZIP allowlist, checksums and required launch files."""
 import json
+import hashlib
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 import unittest
 import zipfile
 
-from package_release import build_package, release_files, verify_package, PREFIX
+from package_release import build_package, release_files, verify_package, PREFIX, REQUIRED
+from version import APP_VERSION
 
 
+@unittest.skipUnless(shutil.which("git"), "Git CLI required to construct source-release fixtures")
 class ReleasePackageTests(unittest.TestCase):
+    def test_existing_license_draft_is_byte_for_byte_unchanged(self):
+        root = Path(__file__).resolve().parents[1]
+        expected = {
+            "LICENSE.md": "b5c8c544c95411faa126a3225a7249dc6640b28d9bce820312786077248aedcc",
+            "COMMERCIAL-LICENSE.md": "fd1a6d927e39dfde061fd1f5859c614e08614fd28ab4290bd441396fdc4d4ef8",
+        }
+        for name, digest in expected.items():
+            with self.subTest(name=name):
+                self.assertEqual(hashlib.sha256((root / name).read_bytes()).hexdigest(), digest)
+
     def make_repo(self, root):
         subprocess.run(["git", "init", "-q", root], check=True)
-        for name in ("README.md", "RELEASE_NOTES.md", "requirements.txt", "install.sh",
-                     "launch.sh", "main.py", "engine.py", "version.py"):
+        for name in REQUIRED:
             path = Path(root) / name
+            path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(name, encoding="utf-8")
         subprocess.run(["git", "add", "."], cwd=root, check=True)
 
@@ -25,9 +39,18 @@ class ReleasePackageTests(unittest.TestCase):
             output = Path(folder) / "release.zip"
             build_package(output, root)
             manifest = verify_package(output)
-            self.assertEqual(manifest["version"], "3.0.0")
+            self.assertEqual(manifest["version"], APP_VERSION)
             with zipfile.ZipFile(output) as archive:
                 self.assertIn(PREFIX + "launch.sh", archive.namelist())
+                self.assertIn(PREFIX + "windows/build.py", archive.namelist())
+                for name in ("LICENSE.md", "COMMERCIAL-LICENSE.md", "THIRD_PARTY_NOTICES.md",
+                             "licenses/LGPL-3.0.txt", "licenses/GPL-3.0.txt",
+                             "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt",
+                             "licenses/Qt-6.9.3-attributions.txt",
+                             "licenses/Mesa-llvmpipe-attribution.txt",
+                             "licenses/NSIS-zlib-license.txt",
+                             "docs/qt-source-and-replacement-3.1.0.md"):
+                    self.assertEqual(archive.read(PREFIX + name), name.encode("utf-8"))
                 self.assertEqual(archive.read(PREFIX + "engine.py"), b"engine.py")
                 self.assertEqual((archive.getinfo(PREFIX + "launch.sh").external_attr >> 16) & 0o777,
                                  0o755)
@@ -52,6 +75,13 @@ class ReleasePackageTests(unittest.TestCase):
             with zipfile.ZipFile(output, "w") as archive:
                 for name, body in content.items(): archive.writestr(name, body)
             self.assertRaisesRegex(ValueError, "modified", verify_package, output)
+
+    def test_missing_license_is_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder) / "repo"; root.mkdir()
+            self.make_repo(root)
+            (root / "LICENSE.md").unlink()
+            self.assertRaisesRegex(ValueError, "missing", release_files, root)
 
 
 if __name__ == "__main__": unittest.main()

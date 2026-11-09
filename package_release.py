@@ -13,13 +13,26 @@ from version import APP_VERSION
 
 ROOT = Path(__file__).resolve().parent
 PREFIX = f"LogicSpace-{APP_VERSION}/"
-DIRECTORIES = {".github", "docs", "examples", "resources", "tests"}
-ROOT_NAMES = {".gitignore", "README.md", "CHANGELOG.md", "RELEASE_NOTES.md",
-              "CONTRIBUTING.md", "SECURITY.md", "requirements.txt", "install.sh", "launch.sh"}
+DIRECTORIES = {".github", "docs", "examples", "licenses", "resources", "tests"}
+WINDOWS_FILES = {"windows/LogicSpace.nsi.in", "windows/LogicSpace.spec",
+                 "windows/README-BUILD.txt", "windows/build.py",
+                 "windows/requirements-build.txt", "windows/package_qt_sources.py",
+                 "windows/modify_qt_version_resource.py"}
+ROOT_NAMES = {".gitignore", ".gitattributes", "README.md", "CHANGELOG.md", "RELEASE_NOTES.md",
+              "CONTRIBUTING.md", "SECURITY.md", "LICENSE.md",
+              "COMMERCIAL-LICENSE.md", "THIRD_PARTY_NOTICES.md",
+              "requirements.txt", "install.sh", "launch.sh"}
 SUFFIXES = {".py", ".sh", ".md", ".txt", ".json", ".sv", ".v", ".asm",
             ".bin", ".hex", ".png", ".svg", ".yml", ".yaml"}
 REQUIRED = {"README.md", "RELEASE_NOTES.md", "requirements.txt", "install.sh",
-            "launch.sh", "main.py", "engine.py", "version.py"}
+            "launch.sh", "main.py", "engine.py", "version.py",
+            "LICENSE.md", "COMMERCIAL-LICENSE.md", "THIRD_PARTY_NOTICES.md",
+            "licenses/LGPL-3.0.txt", "licenses/GPL-3.0.txt",
+            "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt",
+            "licenses/Qt-6.9.3-attributions.txt",
+            "licenses/Mesa-llvmpipe-attribution.txt",
+            "licenses/NSIS-zlib-license.txt",
+            "docs/qt-source-and-replacement-3.1.0.md"} | WINDOWS_FILES
 
 
 def release_files(root=ROOT):
@@ -29,9 +42,13 @@ def release_files(root=ROOT):
         if not entry: continue
         name = entry.decode("utf-8")
         path = Path(name)
+        # The website is built and published separately from the desktop source ZIP.
+        if path.parts[0] == "website":
+            continue
         if (path.is_absolute() or ".." in path.parts or
                 not (len(path.parts) == 1 and (path.name in ROOT_NAMES or path.suffix == ".py") or
-                     path.parts[0] in DIRECTORIES and path.suffix in SUFFIXES)):
+                     path.parts[0] in DIRECTORIES and path.suffix in SUFFIXES or
+                     name in WINDOWS_FILES)):
             raise ValueError(f"Refusing unreviewed release path: {name}")
         full = root / path
         if not full.is_file() or full.is_symlink() or full.stat().st_size > 8 * 1024 * 1024:
@@ -81,6 +98,8 @@ def verify_package(path):
         manifest = json.loads(archive.read(manifest_name))
         if manifest.get("format") != "logicspace-source-release" or manifest.get("version") != APP_VERSION:
             raise ValueError("Source ZIP has invalid release metadata")
+        if not REQUIRED.issubset(manifest.get("files", {})):
+            raise ValueError("Source ZIP is missing required release or license documents")
         expected = {PREFIX + name for name in manifest["files"]} | {manifest_name}
         if set(names) != expected:
             raise ValueError("Source ZIP members differ from its manifest")

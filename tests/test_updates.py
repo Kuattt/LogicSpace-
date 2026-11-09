@@ -67,10 +67,10 @@ class VersionTests(unittest.TestCase):
                                opener=lambda *_args, **_kwargs: Response({"body": "x" * 300000}))
 
     def test_find_update_and_no_auto_install(self):
-        new = parse_release(release())
-        self.assertEqual(find_update(fetch=lambda **_: new).tag, "v3.1.0")
-        self.assertIsNone(find_update(current="3.1.0", fetch=lambda **_: new))
-        beta = parse_release(release("v3.2.0-beta.1", prerelease=True))
+        new = parse_release(release("v3.2.0"))
+        self.assertEqual(find_update(fetch=lambda **_: new).tag, "v3.2.0")
+        self.assertIsNone(find_update(current="3.2.0", fetch=lambda **_: new))
+        beta = parse_release(release("v3.3.0-beta.1", prerelease=True))
         self.assertIsNone(find_update(fetch=lambda **_: beta))
         self.assertFalse(AUTO_INSTALL_SUPPORTED)
         self.assertEqual(update_destination(new), new.url)
@@ -91,7 +91,8 @@ class SettingsTests(unittest.TestCase):
             store.save(data)
             self.assertFalse(store.due(now + timedelta(days=2)))
             self.assertTrue(store.load()["include_prerelease"])
-            self.assertEqual(store.path.stat().st_mode & 0o777, 0o600)
+            if os.name == "posix":
+                self.assertEqual(store.path.stat().st_mode & 0o777, 0o600)
 
     def test_corrupt_settings_preserved(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -122,7 +123,8 @@ class UiTests(unittest.TestCase):
     def test_update_dialog_is_read_only_and_settings_are_editable(self):
         found = parse_release(release())
         dialog = UpdateDialog(found)
-        self.assertTrue(any("Current: 3.0.0" in label.text()
+        from version import APP_VERSION
+        self.assertTrue(any(f"Current: {APP_VERSION}" in label.text()
                             for label in dialog.findChildren(QLabel)))
         with tempfile.TemporaryDirectory() as folder:
             class Controller: pass

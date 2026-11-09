@@ -1,0 +1,119 @@
+name: Windows x64 build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, release-prep, windows-support]
+  pull_request:
+    paths:
+      - '*.py'
+      - 'tests/**'
+      - 'windows/**'
+      - 'LICENSE.md'
+      - 'COMMERCIAL-LICENSE.md'
+      - 'THIRD_PARTY_NOTICES.md'
+      - 'licenses/**'
+      - 'README.md'
+      - '.gitattributes'
+      - '.github/workflows/windows-build.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  windows-x64:
+    runs-on: windows-2022
+    timeout-minutes: 60
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r windows/requirements-build.txt
+          choco install nsis --no-progress -y
+      - name: Compile and run tests on Windows
+        run: |
+          python -m compileall -q .
+          python -m unittest discover -s tests -q
+      - name: Build portable ZIP and installer
+        run: python windows/build.py
+      - name: Inspect installer and portable outputs
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $out = Join-Path $PWD 'dist/windows'
+          $zip = Join-Path $out 'LogicSpace-Windows-x64.zip'
+          $setup = Join-Path $out 'LogicSpace-Setup.exe'
+          if (!(Test-Path $zip) -or !(Test-Path $setup)) { throw 'Missing Windows distribution' }
+          foreach ($line in Get-Content (Join-Path $out 'SHA256SUMS.txt')) {
+            if ($line -notmatch '^([0-9a-f]{64})  (.+)$') { throw "Invalid checksum line: $line" }
+            $expected = $Matches[1]
+            $asset = Join-Path $out $Matches[2]
+            $actual = (Get-FileHash -LiteralPath $asset -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($actual -ne $expected) { throw "SHA-256 mismatch: $asset" }
+          }
+          $portable = Join-Path $env:RUNNER_TEMP 'LogicSpace portable relocated'
+          Expand-Archive -LiteralPath $zip -DestinationPath $portable
+          foreach ($name in @('LICENSE.md', 'COMMERCIAL-LICENSE.md', 'THIRD_PARTY_NOTICES.md', 'licenses/LGPL-3.0.txt', 'licenses/GPL-3.0.txt', 'licenses/Apache-2.0.txt', 'licenses/Python-3.12.txt', 'licenses/Qt-6.9.3-attributions.txt', 'licenses/Mesa-llvmpipe-attribution.txt', 'licenses/NSIS-zlib-license.txt', 'docs/qt-source-and-replacement-3.1.0.md')) {
+            $member = Join-Path $portable ('LogicSpace/' + $name)
+            if (!(Test-Path $member)) { throw "Missing portable license document: $name" }
+          }
+          $exe = Join-Path $portable 'LogicSpace/LogicSpace.exe'
+          if (!(Test-Path $exe)) { throw 'Missing portable executable' }
+          $runtimeDlls = Get-ChildItem -Path $portable -Recurse -File -Filter '*.dll' | Where-Object {
+            $_.Name -match '^(api-ms-win-|msvcp140|vcruntime140|vcamp140|vcomp140)' -or
+            $_.Name -match '^(ucrtbase|concrt140|vccorlib140)\.dll$'
+          }
+          if ($runtimeDlls) { throw "Bundled Microsoft runtime DLL: $($runtimeDlls[0].FullName)" }
+          $process = Start-Process -FilePath $exe -WorkingDirectory (Split-Path $exe) -PassThru
+          Start-Sleep -Seconds 8
+          if ($process.HasExited) { throw "Portable app exited during startup: $($process.ExitCode)" }
+          taskkill.exe /PID $($process.Id) /T /F | Out-Null
+          if (!$process.WaitForExit(10000)) { throw 'Portable process tree did not stop' }
+          # A copied ABI-compatible Qt DLL with an altered version resource must load.
+          $qtCore = Join-Path $portable 'LogicSpace/_internal/PySide6/Qt6Core.dll'
+          Copy-Item -LiteralPath $qtCore -Destination "$qtCore.original"
+          python windows/modify_qt_version_resource.py $qtCore
+          $modifiedApp = Start-Process -FilePath $exe -WorkingDirectory (Split-Path $exe) -PassThru
+          Start-Sleep -Seconds 8
+          if ($modifiedApp.HasExited) { throw "Modified compatible Qt DLL failed to load: $($modifiedApp.ExitCode)" }
+          taskkill.exe /PID $($modifiedApp.Id) /T /F | Out-Null
+          if (!$modifiedApp.WaitForExit(10000)) { throw 'Modified-library process tree did not stop' }
+          Copy-Item -LiteralPath "$qtCore.original" -Destination $qtCore -Force
+          Remove-Item -LiteralPath "$qtCore.original"
+          $install = Join-Path $env:RUNNER_TEMP 'LogicSpace test installation'
+          $userData = Join-Path $env:LOCALAPPDATA 'LogicSpace'
+          New-Item -ItemType Directory -Force -Path $userData | Out-Null
+          Set-Content -LiteralPath (Join-Path $userData 'preserve-me.txt') -Value 'test data'
+          $installed = Start-Process -FilePath $setup -ArgumentList @('/S', "/D=$install") -Wait -PassThru
+          if ($installed.ExitCode -ne 0) { throw "Install failed: $($installed.ExitCode)" }
+          if (!(Test-Path (Join-Path $install 'LogicSpace.exe'))) { throw 'Installed executable missing' }
+          foreach ($name in @('LICENSE.md', 'COMMERCIAL-LICENSE.md', 'THIRD_PARTY_NOTICES.md', 'licenses/LGPL-3.0.txt', 'licenses/GPL-3.0.txt', 'licenses/Apache-2.0.txt', 'licenses/Python-3.12.txt', 'licenses/Qt-6.9.3-attributions.txt', 'licenses/Mesa-llvmpipe-attribution.txt', 'licenses/NSIS-zlib-license.txt', 'docs/qt-source-and-replacement-3.1.0.md')) {
+            if (!(Test-Path (Join-Path $install $name))) { throw "Missing installed license document: $name" }
+          }
+          $installedApp = Start-Process -FilePath (Join-Path $install 'LogicSpace.exe') -WorkingDirectory $install -PassThru
+          Start-Sleep -Seconds 8
+          if ($installedApp.HasExited) { throw "Installed app exited during startup: $($installedApp.ExitCode)" }
+          taskkill.exe /PID $($installedApp.Id) /T /F | Out-Null
+          if (!$installedApp.WaitForExit(10000)) { throw 'Installed process tree did not stop' }
+          $reinstalled = Start-Process -FilePath $setup -ArgumentList @('/S', "/D=$install") -Wait -PassThru
+          if ($reinstalled.ExitCode -ne 0) { throw "Reinstall failed: $($reinstalled.ExitCode)" }
+          if (!(Test-Path (Join-Path $userData 'preserve-me.txt'))) { throw 'Reinstall deleted user data' }
+          $uninstaller = Join-Path $install 'Uninstall.exe'
+          if (!(Test-Path $uninstaller)) { throw 'Uninstaller missing' }
+          $removed = Start-Process -FilePath $uninstaller -ArgumentList @('/S') -Wait -PassThru
+          if ($removed.ExitCode -ne 0) { throw "Uninstall failed: $($removed.ExitCode)" }
+          if (!(Test-Path (Join-Path $userData 'preserve-me.txt'))) { throw 'Uninstall deleted user data' }
+          if (Test-Path (Join-Path $install 'LogicSpace.exe')) { throw 'Uninstall left application executable behind' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LogicSpace-Windows-x64
+          path: dist/windows/*

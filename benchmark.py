@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from app_paths import user_data_dir
 from time import perf_counter_ns
 import csv
 import json
@@ -130,7 +131,7 @@ def export_csv(result, path):
 class BenchmarkHistory:
     """Bounded local run history; comparisons require identical scenario/settings."""
     def __init__(self, path=None):
-        self.path = Path(path or Path.home() / ".local/share/logicspace/benchmark_history.json")
+        self.path = Path(path) if path is not None else user_data_dir() / "benchmark_history.json"
 
     def read(self):
         if not self.path.exists(): return []
