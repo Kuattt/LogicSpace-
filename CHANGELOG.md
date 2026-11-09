@@ -2,6 +2,7 @@
 
 ## 3.1.0 — Release candidate (unpublished)
 
+- Prepared the existing LogicSpace source-available and commercial-licensing drafts for review without changing their terms. Source and Windows packaging now require the project documents, third-party notices and supporting license texts; final publication still depends on rights and dependency review.
 - Prepared Windows 10/11 x64 installer and portable ZIP from the same application and simulator, with per-user data storage and an uninstaller that preserves user files.
 - Added a native Windows CI workflow for tests, package builds, checksum checks, launch smoke tests, reinstall and uninstall. Earlier Windows CI for the 3.0.0-based branch passed 337 tests with one platform-specific skip; the 3.1.0 candidate needs its own successful run.
 - Kept Ubuntu/Linux source installation and older project formats. The source-release allowlist now includes reviewed Windows build files while excluding the separately built website.

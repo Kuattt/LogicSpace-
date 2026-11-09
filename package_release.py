@@ -13,16 +13,21 @@ from version import APP_VERSION
 
 ROOT = Path(__file__).resolve().parent
 PREFIX = f"LogicSpace-{APP_VERSION}/"
-DIRECTORIES = {".github", "docs", "examples", "resources", "tests"}
+DIRECTORIES = {".github", "docs", "examples", "licenses", "resources", "tests"}
 WINDOWS_FILES = {"windows/LogicSpace.nsi.in", "windows/LogicSpace.spec",
                  "windows/README-BUILD.txt", "windows/build.py",
                  "windows/requirements-build.txt"}
 ROOT_NAMES = {".gitignore", "README.md", "CHANGELOG.md", "RELEASE_NOTES.md",
-              "CONTRIBUTING.md", "SECURITY.md", "requirements.txt", "install.sh", "launch.sh"}
+              "CONTRIBUTING.md", "SECURITY.md", "LICENSE.md",
+              "COMMERCIAL-LICENSE.md", "THIRD_PARTY_NOTICES.md",
+              "requirements.txt", "install.sh", "launch.sh"}
 SUFFIXES = {".py", ".sh", ".md", ".txt", ".json", ".sv", ".v", ".asm",
             ".bin", ".hex", ".png", ".svg", ".yml", ".yaml"}
 REQUIRED = {"README.md", "RELEASE_NOTES.md", "requirements.txt", "install.sh",
-            "launch.sh", "main.py", "engine.py", "version.py"} | WINDOWS_FILES
+            "launch.sh", "main.py", "engine.py", "version.py",
+            "LICENSE.md", "COMMERCIAL-LICENSE.md", "THIRD_PARTY_NOTICES.md",
+            "licenses/LGPL-3.0.txt", "licenses/GPL-3.0.txt",
+            "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt"} | WINDOWS_FILES
 
 
 def release_files(root=ROOT):
@@ -88,6 +93,8 @@ def verify_package(path):
         manifest = json.loads(archive.read(manifest_name))
         if manifest.get("format") != "logicspace-source-release" or manifest.get("version") != APP_VERSION:
             raise ValueError("Source ZIP has invalid release metadata")
+        if not REQUIRED.issubset(manifest.get("files", {})):
+            raise ValueError("Source ZIP is missing required release or license documents")
         expected = {PREFIX + name for name in manifest["files"]} | {manifest_name}
         if set(names) != expected:
             raise ValueError("Source ZIP members differ from its manifest")

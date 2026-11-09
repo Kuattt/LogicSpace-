@@ -149,4 +149,24 @@ The Bench tab builds standard circuits, measures construction separately from si
 
 See [CHANGELOG](CHANGELOG.md), [release notes](RELEASE_NOTES.md), [Issues](https://github.com/Kuattt/LogicSpace-/issues) and [Releases](https://github.com/Kuattt/LogicSpace-/releases). Before contributing, read [CONTRIBUTING](CONTRIBUTING.md) and [SECURITY](SECURITY.md).
 
-**Licensing status:** the published 3.0.0 source archive contains no project license. Proposed source-available and commercial terms remain unapproved drafts and are not part of that release. This repository is not represented as OSI Open Source. Public GitHub visibility permits viewing and platform forking under GitHub's own terms; it does not establish general redistribution or commercial rights. PySide6/Qt and other third-party materials retain their separate licenses. A new binary release requires review of those obligations and the rights to included resources before publication.
+## License and third-party software
+
+The published **v3.0.0** source archive contains no LogicSpace project license.
+The proposed [LogicSpace Proprietary Source-Available License](LICENSE.md) is
+currently a **draft for rights-holder and legal review**, not an approved term
+of that earlier release. Its proposed terms allow personal use and private
+local non-commercial modifications, while requiring separate written
+permission for redistribution, derivative products and commercial use. It
+does not grant rights to the LogicSpace name or branding. One approved version
+of these terms is intended to cover original LogicSpace materials on Linux
+and Windows for a future release; it will not be applied retroactively to
+v3.0.0. LogicSpace is not represented as OSI Open Source.
+
+The [commercial licensing notice](COMMERCIAL-LICENSE.md) is also a draft; it
+is **not** a signed agreement and grants no commercial rights. Third-party
+libraries and runtimes retain their own terms. See the
+[third-party notices and open release checks](THIRD_PARTY_NOTICES.md) and the
+[rights-review checklist](docs/licensing-review-3.1.0.md). Public GitHub
+visibility also carries GitHub's own platform terms for viewing and forking.
+Windows binary publication awaits review of the bundled PySide6/Qt, Python,
+Microsoft and other third-party components.

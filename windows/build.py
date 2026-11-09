@@ -21,6 +21,11 @@ BUILD = ROOT / "build" / "windows"
 STAGE = BUILD / "dist" / "LogicSpace"
 OUTPUT = ROOT / "dist" / "windows"
 VERSION = "3.1.0"
+RELEASE_DOCUMENTS = (
+    "LICENSE.md", "COMMERCIAL-LICENSE.md", "THIRD_PARTY_NOTICES.md",
+    "licenses/LGPL-3.0.txt", "licenses/GPL-3.0.txt",
+    "licenses/Apache-2.0.txt", "licenses/Python-3.12.txt",
+)
 
 
 def require_windows_x64():
@@ -78,6 +83,22 @@ def verify_stage(stage):
         raise ValueError("Qt Windows platform plugin qwindows.dll is missing")
     if any(path.suffix == ".py" for path in stage.rglob("*")):
         raise ValueError("Raw Python source was unexpectedly included")
+    for name in RELEASE_DOCUMENTS:
+        bundled = stage / name
+        source = ROOT / name
+        if not source.is_file() or not bundled.is_file() or digest(source) != digest(bundled):
+            raise ValueError(f"Missing or modified release document: {name}")
+
+
+def stage_release_documents(stage=STAGE):
+    """Place reviewable notices beside the executable in both Windows packages."""
+    for name in RELEASE_DOCUMENTS:
+        source = ROOT / name
+        if not source.is_file():
+            raise ValueError(f"Missing release document: {name}")
+        destination = Path(stage) / name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, destination)
 
 
 def write_readme(path):
@@ -186,6 +207,7 @@ def build():
     subprocess.run([sys.executable, "-m", "PyInstaller", "--noconfirm", "--clean",
                     "--workpath", str(BUILD / "work"), "--distpath", str(BUILD / "dist"),
                     str(ROOT / "windows" / "LogicSpace.spec")], cwd=ROOT, check=True)
+    stage_release_documents(STAGE)
     package()
 
 

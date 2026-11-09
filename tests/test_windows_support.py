@@ -9,7 +9,7 @@ from unittest.mock import patch
 from app_paths import user_data_dir
 import hdl_tools
 import toolchain_model
-from windows.build import make_icon, machine_type, verify_stage
+from windows.build import make_icon, machine_type, stage_release_documents, verify_stage
 
 
 class WindowsCompatibilityTests(unittest.TestCase):
@@ -68,6 +68,7 @@ class WindowsCompatibilityTests(unittest.TestCase):
             (internal / "examples" / "half_adder.json").write_bytes(b"{}")
             (internal / "README.md").write_bytes(b"guide")
             (internal / "PySide6" / "Qt" / "plugins" / "platforms" / "qwindows.dll").write_bytes(b"plugin")
+            stage_release_documents(stage)
             exe = stage / "LogicSpace.exe"
             image = bytearray(256)
             image[:2] = b"MZ"
@@ -77,6 +78,10 @@ class WindowsCompatibilityTests(unittest.TestCase):
             exe.write_bytes(image)
             self.assertEqual(machine_type(exe), 0x8664)
             verify_stage(stage)
+            (stage / "LICENSE.md").write_text("modified", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "release document"):
+                verify_stage(stage)
+            stage_release_documents(stage)
             (internal / "examples" / "half_adder.json").unlink()
             with self.assertRaisesRegex(ValueError, "Missing bundled resource"):
                 verify_stage(stage)

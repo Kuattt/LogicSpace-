@@ -7,6 +7,7 @@
 - Windows 10/11 x64 packages: a per-user graphical installer and a portable ZIP, built from the same LogicSpace application as the Ubuntu/Linux source distribution.
 - Windows user data is stored under `%LOCALAPPDATA%\LogicSpace`, outside the installation folder. The uninstaller leaves projects and settings in place.
 - Native Windows CI builds both packages and checks Python tests, SHA-256, offscreen startup, reinstall and uninstall.
+- Release packages now include the existing draft LogicSpace license, the informational commercial-licensing draft, third-party notices and supporting license texts. These drafts are not represented as an approved legal agreement.
 - The existing Ubuntu/Linux source installation, simulator, CPU/Assembly, HDL subset and debugging tools remain available.
 
 ## Installation
